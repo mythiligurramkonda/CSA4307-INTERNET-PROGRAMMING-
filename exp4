@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Railway Reservation System</title>
+</head>
+
+<body bgcolor="#E6F7FF">
+
+    <center>
+        <h1>🚆 Railway Reservation System</h1>
+        <hr width="60%">
+
+        <h2>Welcome to Online Railway Reservation</h2>
+
+        <img src="train.jpg" width="500" height="250" alt="Train Image">
+
+        <br><br>
+
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr bgcolor="lightblue">
+                <th>Services</th>
+            </tr>
+
+            <tr>
+                <td><a href="login.html">Passenger Login</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="register.html">New Registration</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="book_ticket.html">Book Ticket</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="payment.html">Ticket Payment</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="pnr_status.html">Check PNR Status</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="cancel_ticket.html">Cancel Ticket</a></td>
+            </tr>
+
+            <tr>
+                <td><a href="admin.html">Admin Login</a></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <h3>Available Facilities</h3>
+
+        <ul style="display:inline-block; text-align:left;">
+            <li>Train Search</li>
+            <li>Seat Availability</li>
+            <li>Online Ticket Booking</li>
+            <li>Secure Payment</li>
+            <li>PNR Status Check</li>
+            <li>Ticket Cancellation</li>
+            <li>Refund Details</li>
+        </ul>
+
+        <br><br>
+
+        <marquee bgcolor="yellow">
+            Welcome to Railway Reservation System - Book Your Journey Easily!
+        </marquee>
+
+        <br><br>
+
+        <footer>
+            <p>© 2026 Railway Reservation System</p>
+        </footer>
+
+    </center>
+
+</body>
+</html>
