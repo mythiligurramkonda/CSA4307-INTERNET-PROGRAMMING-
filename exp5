@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Reservation System</title>
+</head>
+<body bgcolor="lightcyan">
+
+<center>
+
+<h1>✈️ Flight Reservation System</h1>
+<hr width="60%">
+
+<img src="flight.jpg" width="500" height="250" alt="Flight">
+
+<h2>Welcome to Online Flight Booking</h2>
+
+<table border="1" cellpadding="10">
+<tr bgcolor="skyblue">
+<th>Menu</th>
+</tr>
+
+<tr><td><a href="login.html">Customer Login</a></td></tr>
+<tr><td><a href="register.html">New Registration</a></td></tr>
+<tr><td><a href="search_flight.html">Search Flight</a></td></tr>
+<tr><td><a href="book_ticket.html">Book Ticket</a></td></tr>
+<tr><td><a href="payment.html">Payment</a></td></tr>
+<tr><td><a href="my_ticket.html">My Ticket</a></td></tr>
+<tr><td><a href="cancel_ticket.html">Cancel Ticket</a></td></tr>
+<tr><td><a href="admin.html">Admin Login</a></td></tr>
+
+</table>
+
+<h3>Services</h3>
+
+<ul style="display:inline-block;text-align:left;">
+<li>Flight Search</li>
+<li>Seat Availability</li>
+<li>Online Booking</li>
+<li>Secure Payment</li>
+<li>Ticket Cancellation</li>
+<li>Print Ticket</li>
+</ul>
+
+<marquee bgcolor="yellow">
+Welcome to Flight Reservation System
+</marquee>
+
+</center>
+
+</body>
+</html>
