@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fashion Shopping Website</title>
+</head>
+
+<body bgcolor="MistyRose">
+
+<center>
+
+<h1>👗 Fashion Shopping Website</h1>
+<hr width="60%">
+
+<img src="fashion.jpg" width="450" height="250" alt="Fashion">
+
+<h2>Welcome to StyleHub</h2>
+
+<table border="1" cellpadding="10">
+
+<tr bgcolor="violet">
+<th>Menu</th>
+</tr>
+
+<tr><td><a href="login.html">Customer Login</a></td></tr>
+<tr><td><a href="register.html">Customer Registration</a></td></tr>
+<tr><td><a href="products.html">View Fashion</a></td></tr>
+<tr><td><a href="cart.html">Shopping Cart</a></td></tr>
+<tr><td><a href="payment.html">Payment</a></td></tr>
+<tr><td><a href="orders.html">Order Status</a></td></tr>
+<tr><td><a href="admin.html">Admin Login</a></td></tr>
+
+</table>
+
+<h3>Fashion Categories</h3>
+
+<ul style="display:inline-block;text-align:left;">
+<li>Men's Wear</li>
+<li>Women's Wear</li>
+<li>Kids Wear</li>
+<li>Footwear</li>
+<li>Bags</li>
+<li>Accessories</li>
+</ul>
+
+<marquee bgcolor="pink">
+Latest Fashion Collections Available Here
+</marquee>
+
+</center>
+
+</body>
+</html>
