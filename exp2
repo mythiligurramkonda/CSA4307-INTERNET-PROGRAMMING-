@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Hotel Room Booking</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f4f4;
+}
+
+header{
+background:#003366;
+color:white;
+padding:15px;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+}
+
+nav ul li{
+margin:0 15px;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+}
+
+.hero{
+background:#0d6efd;
+color:white;
+text-align:center;
+padding:70px;
+}
+
+section{
+padding:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin:20px 0;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+input,select,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+padding:10px 20px;
+background:#0d6efd;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table,th,td{
+border:1px solid black;
+}
+
+th,td{
+padding:10px;
+text-align:center;
+}
+
+footer{
+background:#003366;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:30px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<nav>
+
+<h2>Luxury Hotel</h2>
+
+<ul>
+
+<li><a href="#">Home</a></li>
+<li><a href="#">Rooms</a></li>
+<li><a href="#">Booking</a></li>
+<li><a href="#">Profile</a></li>
+<li><a href="#">Login</a></li>
+<li><a href="#">Register</a></li>
+<li><a href="#">Contact</a></li>
+
+</ul>
+
+</nav>
+
+</header>
+
+<div class="hero">
+
+<h1>Online Hotel Room Booking System</h1>
+
+<p>Book your room easily and securely.</p>
+
+</div>
+
+<section>
+
+<div class="card">
+
+<h2>Search Room Availability</h2>
+
+<form>
+
+<label>Destination</label>
+<input type="text" placeholder="Enter Destination">
+
+<label>Check-In</label>
+<input type="date">
+
+<label>Check-Out</label>
+<input type="date">
+
+<label>Guests</label>
+<select>
+<option>1 Guest</option>
+<option>2 Guests</option>
+<option>3 Guests</option>
+<option>4 Guests</option>
+</select>
+
+<button>Check Availability</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>Room Types</h2>
+
+<ul>
+
+<li>Standard Room - ₹2500/Night</li>
+<li>Deluxe Room - ₹4000/Night</li>
+<li>Executive Room - ₹6000/Night</li>
+<li>Suite Room - ₹8500/Night</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>User Registration</h2>
+
+<form>
+
+<input type="text" placeholder="Full Name">
+
+<input type="email" placeholder="Email">
+
+<input type="tel" placeholder="Phone Number">
+
+<input type="password" placeholder="Password">
+
+<button>Register</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>User Login</h2>
+
+<form>
+
+<input type="email" placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<button>Login</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>Book a Room</h2>
+
+<form>
+
+<input type="text" placeholder="Full Name">
+
+<select>
+
+<option>Standard Room</option>
+<option>Deluxe Room</option>
+<option>Executive Room</option>
+<option>Suite Room</option>
+
+</select>
+
+<input type="date">
+
+<input type="date">
+
+<input type="number" placeholder="Number of Guests">
+
+<button>Book Now</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>Booking History</h2>
+
+<table>
+
+<tr>
+
+<th>Booking ID</th>
+<th>Room</th>
+<th>Check-In</th>
+<th>Check-Out</th>
+<th>Status</th>
+
+</tr>
+
+<tr>
+
+<td>101</td>
+<td>Deluxe</td>
+<td>20-07-2026</td>
+<td>22-07-2026</td>
+<td>Confirmed</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>Customer Reviews</h2>
+
+<textarea placeholder="Write your review"></textarea>
+
+<button>Submit Review</button>
+
+</div>
+
+<div class="card">
+
+<h2>Administrator Panel</h2>
+
+<ul>
+
+<li>Manage Rooms</li>
+<li>Update Room Price</li>
+<li>Update Room Quantity</li>
+<li>Manage Bookings</li>
+<li>Cancel Bookings</li>
+<li>Manage Users</li>
+<li>Edit About Us</li>
+<li>Edit Contact Us</li>
+<li>Edit FAQ</li>
+<li>Edit Travel Guide</li>
+<li>Edit Privacy Policy</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Customer Service Q & A</h2>
+
+<p><b>Q:</b> Can I cancel my booking?</p>
+<p><b>A:</b> Yes, up to 3 days before arrival.</p>
+
+<p><b>Q:</b> Can I modify my booking?</p>
+<p><b>A:</b> Yes, before 3 days of check-in.</p>
+
+</div>
+
+<div class="card">
+
+<h2>Travel Guide</h2>
+
+<p>Local attractions, transportation, shopping centers, and nearby tourist places are available for hotel guests.</p>
+
+</div>
+
+<div class="card">
+
+<h2>Privacy Policy</h2>
+
+<p>Your personal information is securely stored and never shared without your consent.</p>
+
+</div>
+
+<div class="card">
+
+<h2>Contact Us</h2>
+
+<p>Email: hotel@example.com</p>
+
+<p>Phone: +91 9876543210</p>
+
+<p>Address: Chennai, Tamil Nadu</p>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 Online Hotel Room Booking System</p>
+
+</footer>
+
+</body>
+</html>
