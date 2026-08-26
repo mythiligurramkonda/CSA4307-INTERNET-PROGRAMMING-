@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>Hotel Booking System</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#f5f7fa;
+color:#263238;
+}
+
+header{
+background:#173f5f;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:80px 7%;
+background:
+linear-gradient(#0007,#0007),
+url("https://images.unsplash.com/photo-1566073771259-6a8506099945")
+center/cover;
+color:white;
+}
+
+.hero h2{
+font-size:44px;
+}
+
+.search{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-top:25px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr auto;
+gap:10px;
+}
+
+input,select,textarea{
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card,.panel{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 12px #0002;
+}
+
+.card{
+overflow:hidden;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.price{
+font-size:21px;
+font-weight:bold;
+color:#1677b7;
+margin:10px 0;
+}
+
+button{
+padding:10px 15px;
+background:#1677b7;
+color:white;
+border:0;
+border-radius:7px;
+cursor:pointer;
+margin:4px;
+}
+
+button:hover{
+background:#0e5c91;
+}
+
+.panel{
+margin-top:25px;
+}
+
+.panel input,
+.panel select,
+.panel textarea{
+width:100%;
+margin:6px 0;
+}
+
+.booking{
+border:1px solid #ddd;
+padding:15px;
+margin-top:10px;
+}
+
+.status{
+padding:8px;
+background:#e0f2fe;
+border-radius:6px;
+display:inline-block;
+}
+
+footer{
+background:#173f5f;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+@media(max-width:850px){
+
+header{
+display:block;
+}
+
+.search{
+grid-template-columns:1fr;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🏨 StayEasy</h1>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#hotels">Hotels</a>
+<a href="#bookings">Bookings</a>
+<a href="#admin">Admin</a>
+</nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+<h2>Find Your Perfect Hotel</h2>
+
+<p>
+Search rooms, check availability and book online.
+</p>
+
+<div class="search">
+
+<input
+id="destination"
+placeholder="Destination">
+
+<input
+id="checkin"
+type="date">
+
+<input
+id="checkout"
+type="date">
+
+<input
+id="guests"
+type="number"
+value="1"
+min="1"
+placeholder="Guests">
+
+<button onclick="searchHotels()">
+Search
+</button>
+
+</div>
+
+</section>
+
+
+<div class="container">
+
+<h2 id="hotels">
+Available Hotels
+</h2>
+
+<br>
+
+<div
+id="hotelList"
+class="grid">
+</div>
+
+
+<section class="panel">
+
+<h2>User Registration / Login</h2>
+
+<input
+id="userName"
+placeholder="Name">
+
+<input
+id="userEmail"
+placeholder="Email">
+
+<input
+id="userPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="register()">
+Register
+</button>
+
+<button onclick="login()">
+Login
+</button>
+
+<p id="userMessage"></p>
+
+</section>
+
+
+<section
+class="panel"
+id="bookingPanel"
+style="display:none">
+
+<h2>Book Room</h2>
+
+<p id="selectedHotel"></p>
+
+<input
+id="bookingName"
+placeholder="Guest Name">
+
+<input
+id="bookingEmail"
+placeholder="Email">
+
+<select id="roomType">
+
+<option>Standard</option>
+<option>Deluxe</option>
+<option>Suite</option>
+
+</select>
+
+<input
+id="bookingRooms"
+type="number"
+min="1"
+value="1"
+placeholder="Rooms">
+
+<button onclick="confirmBooking()">
+Confirm Booking
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="bookings">
+
+<h2>My Booking History</h2>
+
+<div id="bookingList">
+No bookings.
+</div>
+
+</section>
+
+
+<section
+class="panel">
+
+<h2>Static Information</h2>
+
+<h3>About Us</h3>
+
+<p>
+StayEasy provides comfortable hotel rooms
+for business and leisure travellers.
+</p>
+
+<br>
+
+<h3>Customer Service Q&A</h3>
+
+<p>
+Q: Can I cancel my booking?
+</p>
+
+<p>
+A: Yes, bookings can be cancelled at least
+3 days before arrival.
+</p>
+
+<br>
+
+<h3>Contact Us</h3>
+
+<p>
+Email: support@stayeasy.com
+</p>
+
+<p>
+Phone: +91 98765 43210
+</p>
+
+</section>
+
+
+<section
+class="panel"
+id="admin">
+
+<h2>Administrator Panel</h2>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="adminTools"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+© 2026 StayEasy Hotel Booking System
+
+</footer>
+
+
+<script>
+
+let hotels=[
+
+{
+name:"Grand Palace Hotel",
+location:"Chennai",
+standard:3500,
+deluxe:4500,
+suite:6500,
+rooms:20,
+image:"https://images.unsplash.com/photo-1566073771259-6a8506099945"
+},
+
+{
+name:"Royal Comfort Hotel",
+location:"Bangalore",
+standard:2800,
+deluxe:3800,
+suite:5500,
+rooms:15,
+image:"https://images.unsplash.com/photo-1551882547-ff40c63fe5fa"
+},
+
+{
+name:"Sea View Resort",
+location:"Goa",
+standard:4000,
+deluxe:5500,
+suite:7500,
+rooms:10,
+image:"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
+}
+
+];
+
+let bookings=[];
+
+let selectedHotel=null;
+
+
+/* REGISTER */
+
+function register(){
+
+let name=
+document.getElementById("userName").value;
+
+let email=
+document.getElementById("userEmail").value;
+
+let password=
+document.getElementById("userPassword").value;
+
+if(!name||!email||!password){
+
+alert("Enter all registration details");
+return;
+
+}
+
+localStorage.setItem(
+"hotelUser",
+JSON.stringify({
+name,
+email,
+password
+})
+);
+
+alert("Registration successful");
+
+}
+
+
+/* LOGIN */
+
+function login(){
+
+let email=
+document.getElementById("userEmail").value;
+
+let password=
+document.getElementById("userPassword").value;
+
+let saved=
+JSON.parse(
+localStorage.getItem("hotelUser")
+);
+
+if(
+saved &&
+saved.email===email &&
+saved.password===password
+){
+
+document.getElementById("userMessage").innerText=
+"Welcome "+saved.name+
+". Login successful.";
+
+}else{
+
+document.getElementById("userMessage").innerText=
+"Invalid login details.";
+
+}
+
+}
+
+
+/* SEARCH */
+
+function searchHotels(){
+
+let destination=
+document.getElementById("destination")
+.value.toLowerCase();
+
+let checkin=
+document.getElementById("checkin").value;
+
+let checkout=
+document.getElementById("checkout").value;
+
+if(!destination){
+
+alert("Enter destination");
+return;
+
+}
+
+if(!checkin||!checkout){
+
+alert("Select check-in and check-out");
+return;
+
+}
+
+if(
+new Date(checkout)<=
+new Date(checkin)
+){
+
+alert(
+"Checkout must be after check-in"
+);
+
+return;
+
+}
+
+let result=
+hotels.filter(h=>
+h.location
+.toLowerCase()
+.includes(destination)
+);
+
+displayHotels(result);
+
+}
+
+
+/* DISPLAY */
+
+function displayHotels(data=hotels){
+
+document.getElementById("hotelList").innerHTML=
+
+data.map((h,i)=>`
+
+<div class="card">
+
+<img src="${h.image}">
+
+<h3>${h.name}</h3>
+
+<p>
+📍 ${h.location}
+</p>
+
+<p>
+Rooms Available:
+${h.rooms}
+</p>
+
+<p class="price">
+Standard ₹${h.standard}
+</p>
+
+<p>
+Deluxe ₹${h.deluxe}
+</p>
+
+<p>
+Suite ₹${h.suite}
+</p>
+
+<button onclick="selectHotel(${hotels.indexOf(h)})">
+Book
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* SELECT HOTEL */
+
+function selectHotel(index){
+
+selectedHotel=hotels[index];
+
+document.getElementById(
+"bookingPanel"
+).style.display="block";
+
+document.getElementById(
+"selectedHotel"
+).innerHTML=`
+
+<b>${selectedHotel.name}</b>
+
+<br>
+
+Location:
+${selectedHotel.location}
+
+<br>
+
+Standard:
+₹${selectedHotel.standard}
+
+<br>
+
+Deluxe:
+₹${selectedHotel.deluxe}
+
+<br>
+
+Suite:
+₹${selectedHotel.suite}
+
+`;
+
+document.getElementById(
+"bookingPanel"
+).scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* CONFIRM BOOKING */
+
+function confirmBooking(){
+
+if(!selectedHotel){
+
+alert("Select hotel");
+return;
+
+}
+
+let name=
+document.getElementById("bookingName").value;
+
+let email=
+document.getElementById("bookingEmail").value;
+
+let type=
+document.getElementById("roomType").value;
+
+let rooms=
+Number(
+document.getElementById("bookingRooms").value
+);
+
+let checkin=
+document.getElementById("checkin").value;
+
+let checkout=
+document.getElementById("checkout").value;
+
+if(!name||!email||!checkin||!checkout){
+
+alert("Complete booking details");
+return;
+
+}
+
+if(
+rooms<=0||
+rooms>selectedHotel.rooms
+){
+
+alert("Rooms not available");
+return;
+
+}
+
+let price=
+
+type==="Standard"
+?
+selectedHotel.standard
+:
+type==="Deluxe"
+?
+selectedHotel.deluxe
+:
+selectedHotel.suite;
+
+let booking={
+
+id:
+"BK"+Date.now().toString().slice(-6),
+
+hotel:selectedHotel.name,
+
+guest:name,
+
+email:email,
+
+roomType:type,
+
+rooms:rooms,
+
+checkin:checkin,
+
+checkout:checkout,
+
+amount:price*rooms,
+
+status:"Confirmed"
+
+};
+
+bookings.push(booking);
+
+selectedHotel.rooms-=rooms;
+
+displayHotels();
+
+displayBookings();
+
+document.getElementById(
+"bookingPanel"
+).style.display="none";
+
+alert(
+"Booking confirmed!\n"+
+"Booking ID: "+booking.id
+);
+
+}
+
+
+/* BOOKINGS */
+
+function displayBookings(){
+
+if(bookings.length===0){
+
+document.getElementById(
+"bookingList"
+).innerHTML="No bookings.";
+
+return;
+
+}
+
+document.getElementById(
+"bookingList"
+).innerHTML=
+
+bookings.map((b,i)=>`
+
+<div class="booking">
+
+<h3>${b.hotel}</h3>
+
+<p>
+Booking ID:
+<b>${b.id}</b>
+</p>
+
+<p>
+Guest:
+${b.guest}
+</p>
+
+<p>
+Room:
+${b.roomType}
+</p>
+
+<p>
+Rooms:
+${b.rooms}
+</p>
+
+<p>
+Arrival:
+${b.checkin}
+</p>
+
+<p>
+Departure:
+${b.checkout}
+</p>
+
+<p>
+Amount:
+₹${b.amount}
+</p>
+
+<p>
+<span class="status">
+${b.status}
+</span>
+</p>
+
+<button onclick="modifyBooking(${i})">
+Modify
+</button>
+
+<button onclick="cancelBooking(${i})">
+Cancel
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* MODIFY */
+
+function modifyBooking(i){
+
+let b=bookings[i];
+
+let arrival=
+new Date(b.checkin);
+
+let today=new Date();
+
+let difference=
+(arrival-today)/
+(1000*60*60*24);
+
+if(difference<3){
+
+alert(
+"Booking can only be modified 3 days before arrival."
+);
+
+return;
+
+}
+
+let newDate=
+prompt(
+"Enter new check-in date:",
+b.checkin
+);
+
+if(newDate){
+
+b.checkin=newDate;
+
+displayBookings();
+
+alert("Booking modified");
+
+}
+
+}
+
+
+/* CANCEL */
+
+function cancelBooking(i){
+
+let b=bookings[i];
+
+let arrival=
+new Date(b.checkin);
+
+let today=new Date();
+
+let difference=
+(arrival-today)/
+(1000*60*60*24);
+
+if(difference<3){
+
+alert(
+"Booking can only be cancelled 3 days before arrival."
+);
+
+return;
+
+}
+
+let hotel=
+hotels.find(
+h=>h.name===b.hotel
+);
+
+if(hotel)
+hotel.rooms+=b.rooms;
+
+b.status="Cancelled";
+
+displayHotels();
+
+displayBookings();
+
+alert("Booking cancelled");
+
+}
+
+
+/* ADMIN */
+
+function adminLogin(){
+
+let password=
+document.getElementById("adminPassword")
+.value;
+
+if(password!=="admin123"){
+
+alert("Invalid admin password");
+return;
+
+}
+
+document.getElementById(
+"adminTools"
+).innerHTML=`
+
+<br>
+
+<h3>Hotel Management</h3>
+
+<select id="adminHotel">
+
+${hotels.map((h,i)=>
+`<option value="${i}">
+${h.name}
+</option>`
+).join("")}
+
+</select>
+
+<input
+id="adminStandard"
+type="number"
+placeholder="Standard Price">
+
+<input
+id="adminDeluxe"
+type="number"
+placeholder="Deluxe Price">
+
+<input
+id="adminSuite"
+type="number"
+placeholder="Suite Price">
+
+<input
+id="adminRooms"
+type="number"
+placeholder="Room Quantity">
+
+<button onclick="updateHotel()">
+Update Hotel
+</button>
+
+<br><br>
+
+<h3>Booking Management</h3>
+
+<button onclick="adminViewBookings()">
+View All Bookings
+</button>
+
+<button onclick="adminCancelBooking()">
+Cancel Booking
+</button>
+
+<br><br>
+
+<h3>Static Page Management</h3>
+
+<textarea
+id="pageContent"
+placeholder="Enter updated page information">
+</textarea>
+
+<button onclick="updatePage()">
+Update Page
+</button>
+
+`;
+
+}
+
+
+/* UPDATE HOTEL */
+
+function updateHotel(){
+
+let index=
+Number(
+document.getElementById("adminHotel").value
+);
+
+let hotel=hotels[index];
+
+let standard=
+Number(
+document.getElementById("adminStandard").value
+);
+
+let deluxe=
+Number(
+document.getElementById("adminDeluxe").value
+);
+
+let suite=
+Number(
+document.getElementById("adminSuite").value
+);
+
+let rooms=
+Number(
+document.getElementById("adminRooms").value
+);
+
+if(standard>0)
+hotel.standard=standard;
+
+if(deluxe>0)
+hotel.deluxe=deluxe;
+
+if(suite>0)
+hotel.suite=suite;
+
+if(rooms>=0)
+hotel.rooms=rooms;
+
+displayHotels();
+
+alert("Hotel details updated");
+
+}
+
+
+/* ADMIN BOOKINGS */
+
+function adminViewBookings(){
+
+if(bookings.length===0){
+
+alert("No bookings");
+
+return;
+
+}
+
+alert(
+
+bookings.map(b=>
+b.id+
+" - "+
+b.hotel+
+" - "+
+b.status
+).join("\n")
+
+);
+
+}
+
+
+function adminCancelBooking(){
+
+let id=
+prompt("Enter booking ID:");
+
+let booking=
+bookings.find(b=>b.id===id);
+
+if(!booking){
+
+alert("Booking not found");
+return;
+
+}
+
+booking.status="Cancelled";
+
+displayBookings();
+
+alert("Booking cancelled");
+
+}
+
+
+/* PAGE */
+
+function updatePage(){
+
+let content=
+document.getElementById("pageContent")
+.value;
+
+if(!content){
+
+alert("Enter page content");
+return;
+
+}
+
+localStorage.setItem(
+"hotelStaticPage",
+content
+);
+
+alert("Static page information updated");
+
+}
+
+
+displayHotels();
+
+displayBookings();
+
+</script>
+
+</body>
+</html>
