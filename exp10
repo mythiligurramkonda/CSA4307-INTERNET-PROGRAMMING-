@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleHub - Home</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:0;
+            background:#f4f4f4;
+        }
+
+        header{
+            background:#222;
+            color:white;
+            padding:15px;
+            text-align:center;
+        }
+
+        nav{
+            background:#444;
+            padding:10px;
+            text-align:center;
+        }
+
+        nav a{
+            color:white;
+            text-decoration:none;
+            margin:15px;
+            font-weight:bold;
+        }
+
+        .search{
+            text-align:center;
+            margin:20px;
+        }
+
+        .search input{
+            width:300px;
+            padding:8px;
+        }
+
+        .search button{
+            padding:8px 15px;
+        }
+
+        .category{
+            background:white;
+            width:90%;
+            margin:auto;
+            padding:20px;
+            border-radius:8px;
+        }
+
+        .category h2{
+            color:#333;
+        }
+
+        .box{
+            display:inline-block;
+            width:28%;
+            background:#eee;
+            margin:10px;
+            padding:15px;
+            border-radius:5px;
+            text-align:center;
+        }
+
+        footer{
+            background:#222;
+            color:white;
+            text-align:center;
+            padding:15px;
+            margin-top:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>StyleHub</h1>
+    <p>Your Fashion Destination</p>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Categories</a>
+    <a href="#">Products</a>
+    <a href="#">Cart</a>
+    <a href="#">Wishlist</a>
+    <a href="#">Orders</a>
+    <a href="#">Login</a>
+</nav>
+
+<div class="search">
+    <input type="text" placeholder="Search Fashion Products">
+    <button>Search</button>
+</div>
+
+<div class="category">
+
+<h2>Shop by Categories</h2>
+
+<div class="box">
+<h3>Men</h3>
+<p>Casual Wear</p>
+<p>Formal Wear</p>
+<p>Footwear</p>
+<p>Accessories</p>
+</div>
+
+<div class="box">
+<h3>Women</h3>
+<p>Western Wear</p>
+<p>Ethnic Wear</p>
+<p>Footwear</p>
+<p>Handbags</p>
+</div>
+
+<div class="box">
+<h3>Kids</h3>
+<p>Boys Wear</p>
+<p>Girls Wear</p>
+<p>Shoes</p>
+<p>Toys</p>
+</div>
+
+<h2>Seasonal Collections</h2>
+
+<div class="box">
+<h3>Summer Collection</h3>
+<p>Flat 30% Discount</p>
+</div>
+
+<div class="box">
+<h3>Winter Collection</h3>
+<p>Latest Jackets & Hoodies</p>
+</div>
+
+<div class="box">
+<h3>Festive Collection</h3>
+<p>Exclusive Offers</p>
+</div>
+
+</div>
+
+<footer>
+<p>&copy; 2026 StyleHub | Latest Fashion Trends | Easy Returns | Secure Payments</p>
+</footer>
+
+</body>
+</html>
