@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>BlossomGifts</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#fff6f9;
+color:#43202e;
+}
+
+header{
+background:#a3154f;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:75px 7%;
+text-align:center;
+background:
+linear-gradient(#0006,#0006),
+url("https://images.unsplash.com/photo-1490750967868-88aa4486c946")
+center/cover;
+color:white;
+}
+
+.hero h2{
+font-size:44px;
+margin-bottom:15px;
+}
+
+.search{
+margin:25px auto;
+max-width:700px;
+}
+
+.search input{
+width:100%;
+padding:15px;
+border:0;
+border-radius:25px;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+.categories{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin:20px 0;
+}
+
+.categories button{
+background:#e6a0b9;
+color:#58152e;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.product{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 3px 12px #0002;
+}
+
+.product img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.product-body{
+padding:17px;
+}
+
+.price{
+font-size:20px;
+font-weight:bold;
+color:#a3154f;
+margin:10px 0;
+}
+
+button{
+padding:10px 14px;
+border:0;
+border-radius:7px;
+background:#a3154f;
+color:white;
+cursor:pointer;
+margin:4px;
+}
+
+.panel{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 3px 12px #0001;
+margin-top:25px;
+}
+
+.panel input,
+.panel select{
+width:100%;
+padding:11px;
+margin:6px 0;
+}
+
+.cart-item{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+footer{
+background:#a3154f;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+@media(max-width:900px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:600px){
+
+header{
+display:block;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌸 BlossomGifts</h1>
+
+<nav>
+
+<a href="#shop">
+Shop
+</a>
+
+<a href="#cart">
+Cart (<span id="cartCount">0</span>)
+</a>
+
+<a href="#admin">
+Admin
+</a>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Beautiful Gifts for Every Occasion</h2>
+
+<p>
+Flowers, gift baskets and personalized gifts.
+</p>
+
+<div class="search">
+
+<input
+id="search"
+placeholder="Search flowers and gifts..."
+oninput="displayProducts()">
+
+</div>
+
+</section>
+
+
+<div class="container">
+
+<h2 id="shop">
+Shop by Category
+</h2>
+
+<div class="categories">
+
+<button onclick="filterCategory('All')">
+All
+</button>
+
+<button onclick="filterCategory('Flowers')">
+Flowers
+</button>
+
+<button onclick="filterCategory('Gifts')">
+Gifts
+</button>
+
+<button onclick="filterCategory('Birthday')">
+Birthday
+</button>
+
+<button onclick="filterCategory('Anniversary')">
+Anniversary
+</button>
+
+<button onclick="filterCategory('Chocolate')">
+Chocolate
+</button>
+
+</div>
+
+
+<div
+id="productList"
+class="grid">
+</div>
+
+
+<section
+class="panel"
+id="cart">
+
+<h2>Shopping Cart</h2>
+
+<div id="cartList">
+Cart is empty.
+</div>
+
+<h3>
+Total: ₹<span id="cartTotal">0</span>
+</h3>
+
+<br>
+
+<button onclick="checkout()">
+Checkout
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="orders">
+
+<h2>My Orders</h2>
+
+<div id="orderList">
+No orders.
+</div>
+
+</section>
+
+
+<section
+class="panel"
+id="admin">
+
+<h2>Admin Dashboard</h2>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="adminTools"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+© 2026 BlossomGifts
+
+</footer>
+
+
+<script>
+
+let products=[
+
+{
+name:"Red Rose Bouquet",
+category:"Flowers",
+price:899,
+image:"https://images.unsplash.com/photo-1490750967868-88aa4486c946"
+},
+
+{
+name:"Birthday Gift Basket",
+category:"Birthday",
+price:1299,
+image:"https://images.unsplash.com/photo-1549465220-1a8b9238cd48"
+},
+
+{
+name:"Chocolate Box",
+category:"Chocolate",
+price:699,
+image:"https://images.unsplash.com/photo-1548907040-4d42a42d7f1d"
+},
+
+{
+name:"Anniversary Flowers",
+category:"Anniversary",
+price:1499,
+image:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23"
+},
+
+{
+name:"Premium Gift Hamper",
+category:"Gifts",
+price:1899,
+image:"https://images.unsplash.com/photo-1607083206968-13611e3d76db"
+}
+
+];
+
+let cart=[];
+
+let orders=[];
+
+let currentCategory="All";
+
+
+/* DISPLAY PRODUCTS */
+
+function displayProducts(){
+
+let search=
+document.getElementById("search")
+.value.toLowerCase();
+
+let result=products.filter(p=>
+
+(
+currentCategory==="All"
+||
+p.category===currentCategory
+)
+&&
+p.name.toLowerCase().includes(search)
+
+);
+
+document.getElementById("productList").innerHTML=
+
+result.map((p,index)=>`
+
+<div class="product">
+
+<img src="${p.image}">
+
+<div class="product-body">
+
+<h3>${p.name}</h3>
+
+<p>
+Category: ${p.category}
+</p>
+
+<p class="price">
+₹${p.price}
+</p>
+
+<button onclick="addCart(${products.indexOf(p)})">
+Add to Cart
+</button>
+
+<button onclick="viewProduct(${products.indexOf(p)})">
+Details
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* CATEGORY */
+
+function filterCategory(category){
+
+currentCategory=category;
+
+displayProducts();
+
+}
+
+
+/* DETAILS */
+
+function viewProduct(index){
+
+let p=products[index];
+
+alert(
+
+p.name+
+"\nCategory: "+p.category+
+"\nPrice: ₹"+p.price+
+"\n\nPremium quality gift item."
+
+);
+
+}
+
+
+/* CART */
+
+function addCart(index){
+
+cart.push(products[index]);
+
+displayCart();
+
+}
+
+
+function displayCart(){
+
+document.getElementById("cartCount").innerText=
+cart.length;
+
+if(cart.length===0){
+
+document.getElementById("cartList").innerHTML=
+"Cart is empty.";
+
+document.getElementById("cartTotal").innerText="0";
+
+return;
+
+}
+
+let total=
+cart.reduce((sum,p)=>sum+p.price,0);
+
+document.getElementById("cartList").innerHTML=
+
+cart.map((p,i)=>`
+
+<div class="cart-item">
+
+<b>${p.name}</b>
+
+<br>
+
+₹${p.price}
+
+<button onclick="removeCart(${i})">
+Remove
+</button>
+
+</div>
+
+`).join("");
+
+document.getElementById("cartTotal").innerText=
+total;
+
+}
+
+
+function removeCart(index){
+
+cart.splice(index,1);
+
+displayCart();
+
+}
+
+
+/* CHECKOUT */
+
+function checkout(){
+
+if(cart.length===0){
+
+alert("Your cart is empty.");
+
+return;
+
+}
+
+let name=
+prompt("Enter customer name:");
+
+let address=
+prompt("Enter delivery address:");
+
+let date=
+prompt("Enter delivery date:");
+
+if(!name||!address||!date){
+
+alert("Enter all delivery details.");
+
+return;
+
+}
+
+let total=
+cart.reduce((sum,p)=>sum+p.price,0);
+
+let order={
+
+id:"ORD"+Date.now().toString().slice(-6),
+
+customer:name,
+
+address:address,
+
+date:date,
+
+total:total,
+
+status:"Order Confirmed",
+
+items:[...cart]
+
+};
+
+orders.push(order);
+
+cart=[];
+
+displayCart();
+
+displayOrders();
+
+alert(
+"Order placed successfully!\n"+
+"Order ID: "+order.id
+);
+
+}
+
+
+/* ORDERS */
+
+function displayOrders(){
+
+if(orders.length===0){
+
+document.getElementById("orderList").innerText=
+"No orders.";
+
+return;
+
+}
+
+document.getElementById("orderList").innerHTML=
+
+orders.map(o=>`
+
+<div class="cart-item">
+
+<h3>${o.id}</h3>
+
+<p>
+Customer: ${o.customer}
+</p>
+
+<p>
+Delivery: ${o.date}
+</p>
+
+<p>
+Total: ₹${o.total}
+</p>
+
+<p>
+Status: <b>${o.status}</b>
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* ADMIN */
+
+function adminLogin(){
+
+let password=
+document.getElementById("adminPassword").value;
+
+if(password!=="admin123"){
+
+alert("Invalid admin password.");
+
+return;
+
+}
+
+document.getElementById("adminTools").innerHTML=`
+
+<br>
+
+<h3>Product Management</h3>
+
+<input
+id="newProduct"
+placeholder="Product Name">
+
+<input
+id="newPrice"
+type="number"
+placeholder="Price">
+
+<select id="newCategory">
+
+<option>Flowers</option>
+<option>Gifts</option>
+<option>Birthday</option>
+<option>Anniversary</option>
+<option>Chocolate</option>
+
+</select>
+
+<button onclick="addProduct()">
+Add Product
+</button>
+
+<br><br>
+
+<button onclick="viewCustomers()">
+View Customers
+</button>
+
+`;
+
+}
+
+
+function addProduct(){
+
+let name=
+document.getElementById("newProduct").value;
+
+let price=
+Number(document.getElementById("newPrice").value);
+
+let category=
+document.getElementById("newCategory").value;
+
+if(!name||!price){
+
+alert("Enter product details.");
+
+return;
+
+}
+
+products.push({
+
+name:name,
+
+category:category,
+
+price:price,
+
+image:"https://images.unsplash.com/photo-1455582916367-25f75bfc6710"
+
+});
+
+displayProducts();
+
+alert("Product added successfully.");
+
+}
+
+
+function viewCustomers(){
+
+if(orders.length===0){
+
+alert("No customer orders.");
+
+return;
+
+}
+
+alert(
+orders.map(o=>
+o.customer+" - "+o.id
+).join("\n")
+);
+
+}
+
+
+displayProducts();
+
+displayCart();
+
+displayOrders();
+
+</script>
+
+</body>
+
+</html>
