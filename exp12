@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Home Finder</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f7fb;
+    color:#243447;
+}
+
+header{
+    background:#12355b;
+    color:white;
+    padding:18px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h1{
+    font-size:26px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:18px;
+}
+
+button{
+    border:0;
+    background:#1976d2;
+    color:white;
+    padding:11px 16px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#125ca3;
+}
+
+.hero{
+    padding:80px 7%;
+    color:white;
+    background:
+    linear-gradient(#0008,#0008),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c")
+    center/cover;
+}
+
+.hero h2{
+    font-size:44px;
+    margin-bottom:12px;
+}
+
+.search-box{
+    margin-top:30px;
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
+    gap:10px;
+}
+
+input,select{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:7px;
+}
+
+.container{
+    width:86%;
+    margin:35px auto;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 3px 12px #0002;
+}
+
+.card img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+}
+
+.card-body{
+    padding:18px;
+}
+
+.card-body h3{
+    margin-bottom:8px;
+}
+
+.price{
+    color:#1976d2;
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.panel{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    margin-top:25px;
+    box-shadow:0 3px 10px #0001;
+}
+
+.panel input,
+.panel select{
+    width:100%;
+    margin:6px 0;
+}
+
+#favorites{
+    margin-top:15px;
+}
+
+.favorite-item{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+footer{
+    background:#12355b;
+    color:white;
+    text-align:center;
+    padding:25px;
+    margin-top:50px;
+}
+
+@media(max-width:900px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .search-box{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        display:block;
+    }
+
+    nav{
+        margin-top:12px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .search-box{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🏠 Home Finder</h1>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#properties">Properties</a>
+<a href="#agents">Agents</a>
+<a href="#favorites">Favorites</a>
+</nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+<h2>Find Your Dream Home</h2>
+
+<p>Search houses, apartments and land within your budget.</p>
+
+<div class="search-box">
+
+<input
+id="location"
+placeholder="Enter location">
+
+<input
+id="minPrice"
+type="number"
+placeholder="Minimum Price">
+
+<input
+id="maxPrice"
+type="number"
+placeholder="Maximum Price">
+
+<select id="propertyType">
+
+<option value="">All Types</option>
+<option>House</option>
+<option>Apartment</option>
+<option>Land</option>
+<option>Commercial</option>
+
+</select>
+
+<button onclick="searchProperties()">
+Search
+</button>
+
+</div>
+
+</section>
+
+
+<div class="container">
+
+<h2 id="properties">Available Properties</h2>
+
+<br>
+
+<div id="propertyList" class="grid"></div>
+
+</div>
+
+
+<div class="container">
+
+<section class="panel">
+
+<h2>Login / Register</h2>
+
+<input id="username" placeholder="Username">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+<button onclick="register()">
+Register
+</button>
+
+<p id="loginMessage"></p>
+
+</section>
+
+
+<section class="panel">
+
+<h2>Saved Search</h2>
+
+<p>
+Save your current search criteria so you can reuse it later.
+</p>
+
+<button onclick="saveSearch()">
+Save Current Search
+</button>
+
+<button onclick="loadSearch()">
+Load Saved Search
+</button>
+
+</section>
+
+
+<section class="panel" id="agents">
+
+<h2>Real Estate Agents</h2>
+
+<div id="agentList"></div>
+
+</section>
+
+
+<section class="panel">
+
+<h2>My Favorites</h2>
+
+<div id="favorites"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+© 2026 Home Finder
+
+</footer>
+
+
+<script>
+
+let properties=[
+
+{
+name:"Green Valley Villa",
+location:"Chennai",
+type:"House",
+price:8500000,
+area:"2400 sq.ft",
+image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+description:"Beautiful independent house with parking and garden."
+},
+
+{
+name:"City Heights Apartment",
+location:"Bangalore",
+type:"Apartment",
+price:6200000,
+area:"1500 sq.ft",
+image:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00",
+description:"Modern apartment near schools and shopping areas."
+},
+
+{
+name:"Lake View Land",
+location:"Coimbatore",
+type:"Land",
+price:3500000,
+area:"2400 sq.ft",
+image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+description:"Residential plot with good road connectivity."
+},
+
+{
+name:"Commercial Complex",
+location:"Hyderabad",
+type:"Commercial",
+price:12000000,
+area:"5000 sq.ft",
+image:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+description:"Commercial property suitable for offices."
+}
+
+];
+
+let favorites=[];
+
+
+/* DISPLAY PROPERTIES */
+
+function displayProperties(data=properties){
+
+let list=document.getElementById("propertyList");
+
+if(data.length===0){
+
+list.innerHTML="<p>No properties found.</p>";
+
+return;
+
+}
+
+list.innerHTML=data.map((p,index)=>`
+
+<div class="card">
+
+<img src="${p.image}">
+
+<div class="card-body">
+
+<h3>${p.name}</h3>
+
+<p>📍 ${p.location}</p>
+
+<p>🏠 ${p.type}</p>
+
+<p>📐 ${p.area}</p>
+
+<p class="price">
+₹${p.price.toLocaleString()}
+</p>
+
+<button onclick="viewProperty(${index})">
+View Details
+</button>
+
+<button onclick="addFavorite(${index})">
+♡ Favorite
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* SEARCH */
+
+function searchProperties(){
+
+let location=
+document.getElementById("location")
+.value.toLowerCase();
+
+let min=
+Number(document.getElementById("minPrice").value)||0;
+
+let max=
+Number(document.getElementById("maxPrice").value)||Infinity;
+
+let type=
+document.getElementById("propertyType").value;
+
+let result=properties.filter(p=>
+
+p.location.toLowerCase().includes(location)
+&&
+p.price>=min
+&&
+p.price<=max
+&&
+(!type||p.type===type)
+
+);
+
+displayProperties(result);
+
+}
+
+
+/* PROPERTY DETAILS */
+
+function viewProperty(index){
+
+let p=properties[index];
+
+alert(
+
+"PROPERTY DETAILS\n\n"+
+"Name: "+p.name+
+"\nLocation: "+p.location+
+"\nType: "+p.type+
+"\nArea: "+p.area+
+"\nPrice: ₹"+p.price.toLocaleString()+
+"\n\n"+p.description+
+"\n\nYou can contact an agent to schedule a viewing."
+
+);
+
+}
+
+
+/* FAVORITES */
+
+function addFavorite(index){
+
+if(!favorites.includes(index)){
+
+favorites.push(index);
+
+alert("Property added to favorites.");
+
+}else{
+
+alert("Already in favorites.");
+
+}
+
+displayFavorites();
+
+}
+
+
+function displayFavorites(){
+
+let box=document.getElementById("favorites");
+
+if(favorites.length===0){
+
+box.innerHTML="No favorite properties.";
+
+return;
+
+}
+
+box.innerHTML=favorites.map(i=>`
+
+<div class="favorite-item">
+
+<b>${properties[i].name}</b>
+
+<br>
+
+${properties[i].location}
+
+<br>
+
+₹${properties[i].price.toLocaleString()}
+
+<button onclick="removeFavorite(${i})">
+Remove
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function removeFavorite(index){
+
+favorites=favorites.filter(i=>i!==index);
+
+displayFavorites();
+
+}
+
+
+/* LOGIN */
+
+function login(){
+
+let username=
+document.getElementById("username").value;
+
+let password=
+document.getElementById("password").value;
+
+if(!username||!password){
+
+alert("Enter username and password.");
+
+return;
+
+}
+
+localStorage.setItem("homeFinderUser",username);
+
+document.getElementById("loginMessage").innerText=
+"Welcome "+username+"! Login successful.";
+
+}
+
+
+/* REGISTER */
+
+function register(){
+
+let username=
+document.getElementById("username").value;
+
+let password=
+document.getElementById("password").value;
+
+if(!username||!password){
+
+alert("Enter username and password.");
+
+return;
+
+}
+
+localStorage.setItem(
+"registeredUser",
+JSON.stringify({
+username:username,
+password:password
+})
+);
+
+alert("Registration successful.");
+
+}
+
+
+/* SAVE SEARCH */
+
+function saveSearch(){
+
+let data={
+
+location:
+document.getElementById("location").value,
+
+min:
+document.getElementById("minPrice").value,
+
+max:
+document.getElementById("maxPrice").value,
+
+type:
+document.getElementById("propertyType").value
+
+};
+
+localStorage.setItem(
+"homeSearch",
+JSON.stringify(data)
+);
+
+alert("Search criteria saved.");
+
+}
+
+
+/* LOAD SEARCH */
+
+function loadSearch(){
+
+let data=
+JSON.parse(
+localStorage.getItem("homeSearch")
+);
+
+if(!data){
+
+alert("No saved search found.");
+
+return;
+
+}
+
+document.getElementById("location").value=data.location;
+
+document.getElementById("minPrice").value=data.min;
+
+document.getElementById("maxPrice").value=data.max;
+
+document.getElementById("propertyType").value=data.type;
+
+searchProperties();
+
+}
+
+
+/* AGENTS */
+
+let agents=[
+
+["Rahul Estates","Chennai","9876543210"],
+
+["GreenHome Realty","Bangalore","9876501234"],
+
+["Prime Properties","Hyderabad","9876512345"]
+
+];
+
+document.getElementById("agentList").innerHTML=
+agents.map(a=>`
+
+<div class="favorite-item">
+
+<b>${a[0]}</b>
+
+<br>
+
+📍 ${a[1]}
+
+<br>
+
+📞 ${a[2]}
+
+<br><br>
+
+<button onclick="contactAgent('${a[0]}')">
+Contact Agent
+</button>
+
+</div>
+
+`).join("");
+
+
+function contactAgent(name){
+
+alert(
+"Viewing request sent to "+name+"."
+);
+
+}
+
+
+displayProperties();
+
+displayFavorites();
+
+</script>
+
+</body>
+</html>
