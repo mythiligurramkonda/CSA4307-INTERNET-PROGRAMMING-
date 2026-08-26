@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Electronics Shopping</title>
+</head>
+
+<body bgcolor="HoneyDew">
+
+<center>
+
+<h1>💻 Electronics Shopping Website</h1>
+<hr width="60%">
+
+<img src="electronics.jpg" width="450" height="250" alt="Electronics">
+
+<h2>Welcome to TechSavvy Store</h2>
+
+<table border="1" cellpadding="10">
+
+<tr bgcolor="orange">
+<th>Menu</th>
+</tr>
+
+<tr><td><a href="login.html">Customer Login</a></td></tr>
+<tr><td><a href="register.html">Customer Registration</a></td></tr>
+<tr><td><a href="products.html">View Products</a></td></tr>
+<tr><td><a href="cart.html">Shopping Cart</a></td></tr>
+<tr><td><a href="payment.html">Payment</a></td></tr>
+<tr><td><a href="orders.html">Order Status</a></td></tr>
+<tr><td><a href="admin.html">Admin Login</a></td></tr>
+
+</table>
+
+<h3>Available Products</h3>
+
+<ul style="display:inline-block;text-align:left;">
+<li>Smartphones</li>
+<li>Laptops</li>
+<li>Tablets</li>
+<li>Headphones</li>
+<li>Smart Watches</li>
+<li>Accessories</li>
+</ul>
+
+<marquee bgcolor="yellow">
+Latest Electronics at Best Prices
+</marquee>
+
+</center>
+
+</body>
+</html>
