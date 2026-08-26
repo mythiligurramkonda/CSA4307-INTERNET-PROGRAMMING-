@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>ComplainEase</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#f5f7fa;
+color:#263238;
+}
+
+header{
+background:#7c2d12;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:70px 7%;
+background:linear-gradient(110deg,#7c2d12,#c2410c);
+color:white;
+}
+
+.hero h2{
+font-size:42px;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+.panel{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 3px 12px #0002;
+margin-bottom:25px;
+}
+
+input,select,textarea{
+width:100%;
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+margin:6px 0;
+}
+
+textarea{
+height:110px;
+}
+
+button{
+padding:11px 16px;
+border:0;
+border-radius:7px;
+background:#c2410c;
+color:white;
+cursor:pointer;
+margin:4px;
+}
+
+button:hover{
+background:#9a3412;
+}
+
+.complaint{
+border:1px solid #ddd;
+padding:15px;
+border-radius:8px;
+margin-top:10px;
+}
+
+.status{
+display:inline-block;
+padding:7px 12px;
+background:#fff7ed;
+border-radius:6px;
+margin:7px 0;
+}
+
+footer{
+background:#7c2d12;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>📢 ComplainEase</h1>
+
+<nav>
+<a href="#user">User</a>
+<a href="#complaints">Complaints</a>
+<a href="#officer">Officer</a>
+<a href="#admin">Admin</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Register & Track Complaints</h2>
+
+<p>
+Submit complaints and monitor their resolution.
+</p>
+
+</section>
+
+
+<div class="container">
+
+
+<section class="panel" id="user">
+
+<h2>User Login / Registration</h2>
+
+<input
+id="userName"
+placeholder="Name">
+
+<input
+id="userEmail"
+placeholder="Email">
+
+<input
+id="userPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="registerUser()">
+Register
+</button>
+
+<button onclick="loginUser()">
+Login
+</button>
+
+<p id="userMessage"></p>
+
+</section>
+
+
+<section class="panel">
+
+<h2>Post Complaint</h2>
+
+<input
+id="complaintTitle"
+placeholder="Complaint Title">
+
+<select id="complaintCategory">
+
+<option>Water</option>
+<option>Electricity</option>
+<option>Road</option>
+<option>Waste Management</option>
+<option>Public Safety</option>
+<option>Other</option>
+
+</select>
+
+<textarea
+id="complaintDescription"
+placeholder="Describe your complaint"></textarea>
+
+<input
+id="complaintLocation"
+placeholder="Location">
+
+<input
+id="proof"
+type="file">
+
+<button onclick="postComplaint()">
+Submit Complaint
+</button>
+
+</section>
+
+
+<section class="panel" id="complaints">
+
+<h2>My Complaint Status</h2>
+
+<div id="complaintList">
+No complaints.
+</div>
+
+</section>
+
+
+<section class="panel">
+
+<h2>Feedback</h2>
+
+<select id="feedbackRating">
+<option>5 - Excellent</option>
+<option>4 - Good</option>
+<option>3 - Average</option>
+<option>2 - Poor</option>
+<option>1 - Very Poor</option>
+</select>
+
+<textarea
+id="feedbackText"
+placeholder="Enter feedback"></textarea>
+
+<button onclick="submitFeedback()">
+Submit Feedback
+</button>
+
+</section>
+
+
+<section class="panel">
+
+<h2>Admin Contact</h2>
+
+<p>
+📧 admin@complainease.com
+</p>
+
+<p>
+📞 +91 98765 43210
+</p>
+
+<br>
+
+<button onclick="openMap()">
+View Location on Google Maps
+</button>
+
+</section>
+
+
+<section class="panel" id="officer">
+
+<h2>Officer Portal</h2>
+
+<input
+id="officerName"
+placeholder="Officer Name">
+
+<input
+id="officerPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="officerRegister()">
+Register
+</button>
+
+<button onclick="officerLogin()">
+Login
+</button>
+
+<div id="officerPanel"></div>
+
+</section>
+
+
+<section class="panel" id="admin">
+
+<h2>Administrator</h2>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="adminPanel"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+© 2026 ComplainEase
+</footer>
+
+
+<script>
+
+let complaints=[];
+
+let officers=[];
+
+
+/* USER */
+
+function registerUser(){
+
+let name=
+document.getElementById("userName").value;
+
+let email=
+document.getElementById("userEmail").value;
+
+let password=
+document.getElementById("userPassword").value;
+
+if(!name||!email||!password){
+
+alert("Fill all fields");
+return;
+
+}
+
+localStorage.setItem(
+"complainUser",
+JSON.stringify({
+name,email,password
+})
+);
+
+alert("Registration successful");
+
+}
+
+
+function loginUser(){
+
+let email=
+document.getElementById("userEmail").value;
+
+let password=
+document.getElementById("userPassword").value;
+
+let saved=
+JSON.parse(
+localStorage.getItem("complainUser")
+);
+
+if(saved &&
+saved.email===email &&
+saved.password===password){
+
+document.getElementById("userMessage").innerText=
+"Login successful. Welcome "+saved.name;
+
+}else{
+
+document.getElementById("userMessage").innerText=
+"Invalid login details.";
+
+}
+
+}
+
+
+/* POST COMPLAINT */
+
+function postComplaint(){
+
+let title=
+document.getElementById("complaintTitle").value;
+
+let category=
+document.getElementById("complaintCategory").value;
+
+let description=
+document.getElementById("complaintDescription").value;
+
+let location=
+document.getElementById("complaintLocation").value;
+
+if(!title||!description||!location){
+
+alert("Complete complaint details");
+return;
+
+}
+
+let complaint={
+
+id:
+"CMP"+Math.floor(Math.random()*90000+10000),
+
+title,
+category,
+description,
+location,
+
+status:"Submitted",
+
+proof:"Pending",
+
+feedback:""
+
+};
+
+complaints.push(complaint);
+
+displayComplaints();
+
+alert(
+"Complaint submitted.\nID: "+
+complaint.id
+);
+
+}
+
+
+/* DISPLAY */
+
+function displayComplaints(){
+
+let box=
+document.getElementById("complaintList");
+
+if(complaints.length===0){
+
+box.innerHTML="No complaints.";
+
+return;
+
+}
+
+box.innerHTML=
+
+complaints.map((c,i)=>`
+
+<div class="complaint">
+
+<h3>
+${c.title}
+</h3>
+
+<p>
+Complaint ID: ${c.id}
+</p>
+
+<p>
+Category: ${c.category}
+</p>
+
+<p>
+Location: ${c.location}
+</p>
+
+<p>
+${c.description}
+</p>
+
+<span class="status">
+Status: ${c.status}
+</span>
+
+<br>
+
+Proof:
+${c.proof}
+
+<br>
+
+<button onclick="trackComplaint(${i})">
+Track
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* TRACK */
+
+function trackComplaint(i){
+
+alert(
+
+"Complaint ID: "+
+complaints[i].id+
+"\nStatus: "+
+complaints[i].status+
+"\nProof: "+
+complaints[i].proof
+
+);
+
+}
+
+
+/* FEEDBACK */
+
+function submitFeedback(){
+
+let text=
+document.getElementById("feedbackText").value;
+
+if(!text){
+
+alert("Enter feedback");
+return;
+
+}
+
+alert(
+"Thank you for your feedback."
+);
+
+}
+
+
+/* MAP */
+
+function openMap(){
+
+window.open(
+"https://www.google.com/maps/search/government+office",
+"_blank"
+);
+
+}
+
+
+/* OFFICER */
+
+function officerRegister(){
+
+let name=
+document.getElementById("officerName").value;
+
+let password=
+document.getElementById("officerPassword").value;
+
+if(!name||!password){
+
+alert("Enter officer details");
+return;
+
+}
+
+officers.push({
+name,
+password
+});
+
+alert(
+"Officer registered successfully."
+);
+
+}
+
+
+function officerLogin(){
+
+let name=
+document.getElementById("officerName").value;
+
+let password=
+document.getElementById("officerPassword").value;
+
+let officer=
+officers.find(
+o=>o.name===name&&o.password===password
+);
+
+if(!officer){
+
+alert("Invalid officer login");
+return;
+
+}
+
+document.getElementById("officerPanel").innerHTML=`
+
+<br>
+
+<h3>Officer Dashboard</h3>
+
+${complaints.map((c,i)=>`
+
+<div class="complaint">
+
+<b>${c.id}</b>
+
+<br>
+
+${c.title}
+
+<br>
+
+Status:
+${c.status}
+
+<br><br>
+
+<select id="status${i}">
+
+<option>Submitted</option>
+<option>Under Review</option>
+<option>In Progress</option>
+<option>Resolved</option>
+<option>Rejected</option>
+
+</select>
+
+<br>
+
+<button onclick="updateComplaint(${i})">
+Update Status
+</button>
+
+<button onclick="updateProof(${i})">
+Update Proof
+</button>
+
+</div>
+
+`).join("")}
+
+`;
+
+}
+
+
+/* UPDATE STATUS */
+
+function updateComplaint(i){
+
+let status=
+document.getElementById("status"+i).value;
+
+complaints[i].status=status;
+
+displayComplaints();
+
+alert("Complaint status updated");
+
+}
+
+
+/* UPDATE PROOF */
+
+function updateProof(i){
+
+let proof=
+prompt("Enter proof of work:");
+
+if(proof){
+
+complaints[i].proof=proof;
+
+displayComplaints();
+
+alert("Proof updated");
+
+}
+
+}
+
+
+/* ADMIN */
+
+function adminLogin(){
+
+let password=
+document.getElementById("adminPassword").value;
+
+if(password!=="admin123"){
+
+alert("Invalid admin password");
+return;
+
+}
+
+document.getElementById("adminPanel").innerHTML=`
+
+<h3>Admin Dashboard</h3>
+
+<p>
+Total complaints:
+${complaints.length}
+</p>
+
+<p>
+Officers:
+${officers.length}
+</p>
+
+<button onclick="generateOfficer()">
+Generate Officer ID
+</button>
+
+<button onclick="deleteOfficer()">
+Delete Officer
+</button>
+
+<button onclick="viewAccounts()">
+View Accounts
+</button>
+
+`;
+
+}
+
+
+function generateOfficer(){
+
+let id=
+"OFF"+Math.floor(Math.random()*9000);
+
+let password=
+Math.floor(Math.random()*900000+100000);
+
+alert(
+"Officer ID: "+id+
+"\nPassword: "+password
+);
+
+}
+
+
+function deleteOfficer(){
+
+if(officers.length){
+
+officers.pop();
+
+alert("Officer account deleted.");
+
+}else{
+
+alert("No officer accounts.");
+
+}
+
+}
+
+
+function viewAccounts(){
+
+alert(
+"Users: 1\n"+
+"Officers: "+officers.length+
+"\nComplaints: "+complaints.length
+);
+
+}
+
+</script>
+
+</body>
+</html>
