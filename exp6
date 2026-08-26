@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cake Ordering System</title>
+</head>
+
+<body bgcolor="mistyrose">
+
+<center>
+
+<h1>🎂 Online Cake Ordering System</h1>
+
+<hr width="60%">
+
+<img src="cake.jpg" width="450" height="250" alt="Cake">
+
+<h2>Welcome to Cake Shop</h2>
+
+<table border="1" cellpadding="10">
+
+<tr bgcolor="pink">
+<th>Menu</th>
+</tr>
+
+<tr><td><a href="login.html">Customer Login</a></td></tr>
+<tr><td><a href="register.html">New Registration</a></td></tr>
+<tr><td><a href="cakes.html">View Cakes</a></td></tr>
+<tr><td><a href="order.html">Order Cake</a></td></tr>
+<tr><td><a href="payment.html">Payment</a></td></tr>
+<tr><td><a href="status.html">Order Status</a></td></tr>
+<tr><td><a href="admin.html">Admin Login</a></td></tr>
+
+</table>
+
+<h3>Available Cakes</h3>
+
+<ul style="display:inline-block;text-align:left;">
+<li>Chocolate Cake</li>
+<li>Black Forest Cake</li>
+<li>Vanilla Cake</li>
+<li>Strawberry Cake</li>
+<li>Red Velvet Cake</li>
+<li>Fruit Cake</li>
+</ul>
+
+<marquee bgcolor="yellow">
+Fresh Cakes Delivered at Your Doorstep
+</marquee>
+
+</center>
+
+</body>
+</html>
