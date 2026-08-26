@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Appointment System</title>
+</head>
+
+<body bgcolor="AliceBlue">
+
+<center>
+
+<h1>🏥 Hospital Appointment Booking</h1>
+<hr width="60%">
+
+<img src="hospital.jpg" width="450" height="250" alt="Hospital">
+
+<h2>Welcome to MedCare Hospital</h2>
+
+<table border="1" cellpadding="10">
+
+<tr bgcolor="lightgreen">
+<th>Menu</th>
+</tr>
+
+<tr><td><a href="login.html">Patient Login</a></td></tr>
+<tr><td><a href="register.html">Patient Registration</a></td></tr>
+<tr><td><a href="doctor.html">Search Doctor</a></td></tr>
+<tr><td><a href="appointment.html">Book Appointment</a></td></tr>
+<tr><td><a href="status.html">Appointment Status</a></td></tr>
+<tr><td><a href="hospital.html">Hospital List</a></td></tr>
+<tr><td><a href="admin.html">Admin Login</a></td></tr>
+
+</table>
+
+<h3>Hospital Services</h3>
+
+<ul style="display:inline-block;text-align:left;">
+<li>General Physician</li>
+<li>Cardiology</li>
+<li>Orthopedics</li>
+<li>Neurology</li>
+<li>Pediatrics</li>
+<li>Emergency Care</li>
+</ul>
+
+<marquee bgcolor="lightgreen">
+Book Doctor Appointments Anytime
+</marquee>
+
+</center>
+
+</body>
+</html>
