@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AgriMart</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#f2f8f1;
+color:#243424;
+}
+
+header{
+background:#166534;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:75px 7%;
+background:linear-gradient(#0007,#0007),
+url("https://images.unsplash.com/photo-1499529112087-3cb3b73cec95")
+center/cover;
+color:white;
+}
+
+.hero h2{
+font-size:42px;
+}
+
+.search{
+margin-top:25px;
+display:flex;
+gap:10px;
+}
+
+.search input{
+flex:1;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+input,select,textarea{
+width:100%;
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+margin:6px 0;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card,.panel{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 12px #0002;
+}
+
+.card{
+border-top:5px solid #16a34a;
+}
+
+.price{
+font-size:21px;
+font-weight:bold;
+color:#15803d;
+margin:10px 0;
+}
+
+button{
+padding:10px 15px;
+background:#15803d;
+color:white;
+border:0;
+border-radius:7px;
+cursor:pointer;
+margin:4px;
+}
+
+button:hover{
+background:#166534;
+}
+
+.cart-item{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+.status{
+background:#dcfce7;
+padding:8px;
+border-radius:6px;
+display:inline-block;
+margin-top:6px;
+}
+
+footer{
+background:#166534;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+@media(max-width:800px){
+
+header{
+display:block;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.search{
+display:block;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌾 AgriMart</h1>
+
+<nav>
+<a href="#shop">Shop</a>
+<a href="#cart">Cart</a>
+<a href="#farmer">Farmer</a>
+<a href="#orders">Orders</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>AgriMart</h2>
+
+<p>
+Agricultural products directly from trusted sellers.
+</p>
+
+<div class="search">
+
+<input
+id="search"
+placeholder="Search seeds, fertilizer, tools..."
+oninput="displayProducts()">
+
+<select id="category"
+onchange="displayProducts()">
+
+<option>All</option>
+<option>Seeds</option>
+<option>Fertilizers</option>
+<option>Pesticides</option>
+<option>Equipment</option>
+<option>Tools</option>
+
+</select>
+
+</div>
+
+</section>
+
+
+<div class="container">
+
+
+<section id="shop">
+
+<h2>Products</h2>
+
+<br>
+
+<div
+id="productList"
+class="grid">
+</div>
+
+</section>
+
+
+<section
+class="panel"
+id="cart">
+
+<h2>My Cart</h2>
+
+<div id="cartList">
+Cart empty.
+</div>
+
+<h3>
+Total: ₹<span id="total">0</span>
+</h3>
+
+<button onclick="checkout()">
+Order Product
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="orders">
+
+<h2>My Orders</h2>
+
+<div id="orderList">
+No orders.
+</div>
+
+</section>
+
+
+<section
+class="panel">
+
+<h2>Customer Account</h2>
+
+<input
+id="customerName"
+placeholder="Name">
+
+<input
+id="customerPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="registerCustomer()">
+Register
+</button>
+
+<button onclick="loginCustomer()">
+Login
+</button>
+
+<p id="customerStatus"></p>
+
+<h3>
+Wallet Balance: ₹<span id="wallet">5000</span>
+</h3>
+
+<input
+id="walletAmount"
+type="number"
+placeholder="Add wallet amount">
+
+<button onclick="addWallet()">
+Add Money
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="farmer">
+
+<h2>Farmer Portal</h2>
+
+<input
+id="farmerName"
+placeholder="Farmer Name">
+
+<input
+id="farmerPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="farmerRegister()">
+Register
+</button>
+
+<button onclick="farmerLogin()">
+Login
+</button>
+
+<div id="farmerPanel"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+© 2026 AgriMart
+</footer>
+
+
+<script>
+
+let products=[
+
+{
+id:1,
+name:"Hybrid Tomato Seeds",
+category:"Seeds",
+price:450,
+farmer:"Ravi"
+},
+
+{
+id:2,
+name:"Organic Fertilizer",
+category:"Fertilizers",
+price:850,
+farmer:"Kumar"
+},
+
+{
+id:3,
+name:"Crop Protection Pesticide",
+category:"Pesticides",
+price:1200,
+farmer:"Suresh"
+},
+
+{
+id:4,
+name:"Power Sprayer",
+category:"Equipment",
+price:6500,
+farmer:"Ravi"
+},
+
+{
+id:5,
+name:"Garden Tool Set",
+category:"Tools",
+price:1800,
+farmer:"Anil"
+}
+
+];
+
+let cart=[];
+let orders=[];
+let wallet=5000;
+
+let farmers=[];
+
+
+/* PRODUCTS */
+
+function displayProducts(){
+
+let search=
+document.getElementById("search")
+.value.toLowerCase();
+
+let category=
+document.getElementById("category").value;
+
+let result=products.filter(p=>
+
+p.name.toLowerCase().includes(search)
+&&
+(category==="All"||
+p.category===category)
+
+);
+
+document.getElementById("productList").innerHTML=
+
+result.map(p=>`
+
+<div class="card">
+
+<h3>${p.name}</h3>
+
+<p>
+Category:
+${p.category}
+</p>
+
+<p>
+Farmer:
+${p.farmer}
+</p>
+
+<p class="price">
+₹${p.price}
+</p>
+
+<button onclick="viewProduct(${p.id})">
+Details
+</button>
+
+<button onclick="addCart(${p.id})">
+Add to Cart
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* DETAILS */
+
+function viewProduct(id){
+
+let p=
+products.find(x=>x.id===id);
+
+alert(
+
+p.name+
+"\n\nCategory: "+p.category+
+"\nPrice: ₹"+p.price+
+"\nFarmer: "+p.farmer+
+"\n\nQuality agricultural product."
+
+);
+
+}
+
+
+/* CART */
+
+function addCart(id){
+
+let p=
+products.find(x=>x.id===id);
+
+cart.push(p);
+
+displayCart();
+
+}
+
+
+function displayCart(){
+
+if(cart.length===0){
+
+document.getElementById("cartList")
+.innerHTML="Cart empty.";
+
+document.getElementById("total")
+.innerText="0";
+
+return;
+
+}
+
+document.getElementById("cartList").innerHTML=
+
+cart.map((p,i)=>`
+
+<div class="cart-item">
+
+<b>${p.name}</b>
+
+<br>
+
+₹${p.price}
+
+<button onclick="removeCart(${i})">
+Delete
+</button>
+
+</div>
+
+`).join("");
+
+let total=
+cart.reduce(
+(sum,p)=>sum+p.price,
+0
+);
+
+document.getElementById("total")
+.innerText=total;
+
+}
+
+
+function removeCart(i){
+
+cart.splice(i,1);
+
+displayCart();
+
+}
+
+
+/* CUSTOMER */
+
+function registerCustomer(){
+
+let name=
+document.getElementById("customerName").value;
+
+let password=
+document.getElementById("customerPassword").value;
+
+if(!name||!password){
+
+alert("Enter customer details");
+return;
+
+}
+
+localStorage.setItem(
+"agriCustomer",
+JSON.stringify({
+name,
+password
+})
+);
+
+alert("Customer registered");
+
+}
+
+
+function loginCustomer(){
+
+let name=
+document.getElementById("customerName").value;
+
+let password=
+document.getElementById("customerPassword").value;
+
+let saved=
+JSON.parse(
+localStorage.getItem("agriCustomer")
+);
+
+if(
+saved&&
+saved.name===name&&
+saved.password===password
+){
+
+document.getElementById("customerStatus").innerText=
+"✓ Login successful";
+
+}else{
+
+document.getElementById("customerStatus").innerText=
+"Invalid login";
+
+}
+
+}
+
+
+/* WALLET */
+
+function addWallet(){
+
+let amount=
+Number(
+document.getElementById("walletAmount").value
+);
+
+if(amount<=0)return;
+
+wallet+=amount;
+
+document.getElementById("wallet").innerText=
+wallet;
+
+alert("Wallet updated");
+
+}
+
+
+/* CHECKOUT */
+
+function checkout(){
+
+if(cart.length===0){
+
+alert("Cart is empty");
+return;
+
+}
+
+let address=
+prompt("Enter shipping address:");
+
+if(!address)return;
+
+let total=
+cart.reduce(
+(sum,p)=>sum+p.price,
+0
+);
+
+if(wallet<total){
+
+alert("Insufficient wallet balance");
+return;
+
+}
+
+wallet-=total;
+
+document.getElementById("wallet").innerText=
+wallet;
+
+let order={
+
+id:"AGR"+Date.now().toString().slice(-6),
+
+items:[...cart],
+
+total:total,
+
+address:address,
+
+status:"Order Placed",
+
+shipping:"Processing"
+
+};
+
+orders.push(order);
+
+cart=[];
+
+displayCart();
+
+displayOrders();
+
+alert(
+"Order placed successfully.\n"+
+"Order ID: "+order.id
+);
+
+}
+
+
+/* ORDERS */
+
+function displayOrders(){
+
+if(orders.length===0){
+
+document.getElementById("orderList")
+.innerHTML="No orders.";
+
+return;
+
+}
+
+document.getElementById("orderList").innerHTML=
+
+orders.map((o,i)=>`
+
+<div class="cart-item">
+
+<h3>${o.id}</h3>
+
+<p>
+Total:
+₹${o.total}
+</p>
+
+<p>
+Address:
+${o.address}
+</p>
+
+<p>
+Order Status:
+<span class="status">
+${o.status}
+</span>
+</p>
+
+<p>
+Shipping:
+<span class="status">
+${o.shipping}
+</span>
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* FARMER */
+
+function farmerRegister(){
+
+let name=
+document.getElementById("farmerName").value;
+
+let password=
+document.getElementById("farmerPassword").value;
+
+if(!name||!password){
+
+alert("Enter farmer details");
+return;
+
+}
+
+farmers.push({
+name,
+password
+});
+
+alert("Farmer registered");
+
+}
+
+
+function farmerLogin(){
+
+let name=
+document.getElementById("farmerName").value;
+
+let password=
+document.getElementById("farmerPassword").value;
+
+let farmer=
+farmers.find(
+f=>f.name===name&&f.password===password
+);
+
+if(!farmer){
+
+alert("Invalid farmer login");
+return;
+
+}
+
+document.getElementById("farmerPanel").innerHTML=`
+
+<br>
+
+<h3>Farmer Dashboard</h3>
+
+<input
+id="newProduct"
+placeholder="Product Name">
+
+<select id="newCategory">
+
+<option>Seeds</option>
+<option>Fertilizers</option>
+<option>Pesticides</option>
+<option>Equipment</option>
+<option>Tools</option>
+
+</select>
+
+<input
+id="newPrice"
+type="number"
+placeholder="Price">
+
+<button onclick="addProduct('${name}')">
+Add Product
+</button>
+
+<br><br>
+
+<button onclick="mySales('${name}')">
+My Sales
+</button>
+
+<button onclick="updateShipping()">
+Update Shipping Status
+</button>
+
+<button onclick="deleteProduct()">
+Delete Product
+</button>
+
+`;
+
+}
+
+
+/* ADD PRODUCT */
+
+function addProduct(farmer){
+
+let name=
+document.getElementById("newProduct").value;
+
+let category=
+document.getElementById("newCategory").value;
+
+let price=
+Number(document.getElementById("newPrice").value);
+
+if(!name||!price){
+
+alert("Enter product details");
+return;
+
+}
+
+products.push({
+
+id:Date.now(),
+
+name,
+
+category,
+
+price,
+
+farmer
+
+});
+
+displayProducts();
+
+alert("Product added");
+
+}
+
+
+/* SALES */
+
+function mySales(farmer){
+
+let sales=
+orders.filter(o=>
+o.items.some(p=>
+p.farmer===farmer
+)
+);
+
+alert(
+"My Sales: "+
+sales.length+
+" orders"
+);
+
+}
+
+
+/* SHIPPING */
+
+function updateShipping(){
+
+if(orders.length===0){
+
+alert("No orders");
+return;
+
+}
+
+let status=
+prompt(
+"Enter shipping status:\n"+
+"Shipped / Out for Delivery / Delivered"
+);
+
+if(status){
+
+orders[orders.length-1].shipping=status;
+
+displayOrders();
+
+alert("Shipping status updated");
+
+}
+
+}
+
+
+/* DELETE PRODUCT */
+
+function deleteProduct(){
+
+let name=
+prompt("Enter product name to delete:");
+
+let index=
+products.findIndex(
+p=>p.name.toLowerCase()===
+name?.toLowerCase()
+);
+
+if(index>=0){
+
+products.splice(index,1);
+
+displayProducts();
+
+alert("Product deleted");
+
+}else{
+
+alert("Product not found");
+
+}
+
+}
+
+
+displayProducts();
+displayCart();
+displayOrders();
+
+</script>
+
+</body>
+</html>
