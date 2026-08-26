@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Bus Ticket Booking System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+header{
+    background:#0A4D8C;
+    color:white;
+    padding:15px 30px;
+}
+
+header h2{
+    display:inline;
+}
+
+nav{
+    float:right;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:bold;
+}
+
+.hero{
+    background:#2196F3;
+    color:white;
+    text-align:center;
+    padding:60px 20px;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    margin-bottom:30px;
+}
+
+h2{
+    color:#0A4D8C;
+    margin-bottom:15px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    background:#0A4D8C;
+    color:white;
+    border:none;
+    padding:12px;
+    width:100%;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#06335d;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table,th,td{
+    border:1px solid #ccc;
+}
+
+th{
+    background:#0A4D8C;
+    color:white;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+}
+
+footer{
+    background:#0A4D8C;
+    color:white;
+    text-align:center;
+    padding:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>Bus Ticket Booking</h2>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Login</a>
+<a href="#">Register</a>
+<a href="#">Book Ticket</a>
+<a href="#">Contact</a>
+</nav>
+
+<div style="clear:both;"></div>
+
+</header>
+
+<section class="hero">
+
+<h1>Online Bus Ticket Booking System</h1>
+
+<p>Search, Book and Travel Comfortably</p>
+
+</section>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Search Bus</h2>
+
+<form>
+
+<label>From</label>
+
+<input type="text" placeholder="Enter Source">
+
+<label>To</label>
+
+<input type="text" placeholder="Enter Destination">
+
+<label>Journey Date</label>
+
+<input type="date">
+
+<label>Bus Type</label>
+
+<select>
+<option>Volvo</option>
+<option>Sleeper Coach</option>
+<option>AC Coach</option>
+<option>Non AC Coach</option>
+</select>
+
+<button type="submit">Search Bus</button>
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>Available Buses</h2>
+
+<table>
+
+<tr>
+<th>Bus Name</th>
+<th>Type</th>
+<th>Departure</th>
+<th>Arrival</th>
+<th>Seats</th>
+<th>Fare</th>
+</tr>
+
+<tr>
+<td>Orange Travels</td>
+<td>Volvo AC</td>
+<td>08:00 AM</td>
+<td>02:00 PM</td>
+<td>25</td>
+<td>₹800</td>
+</tr>
+
+<tr>
+<td>APSRTC</td>
+<td>Sleeper</td>
+<td>09:30 PM</td>
+<td>05:30 AM</td>
+<td>18</td>
+<td>₹650</td>
+</tr>
+
+<tr>
+<td>Kaveri Travels</td>
+<td>Luxury AC</td>
+<td>10:00 PM</td>
+<td>06:00 AM</td>
+<td>12</td>
+<td>₹950</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>Features</h2>
+
+<ul>
+<li>User Registration</li>
+<li>User Login</li>
+<li>Search Bus</li>
+<li>Book Ticket</li>
+<li>Cancel Ticket</li>
+<li>Booking History</li>
+<li>Comments & Reviews</li>
+<li>Admin Dashboard</li>
+<li>Report Generation</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Contact Us</h2>
+
+<p><b>Email:</b> support@busbooking.com</p>
+
+<p><b>Phone:</b> +91 9876543210</p>
+
+<p><b>Address:</b> Chennai, Tamil Nadu</p>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>© 2026 Online Bus Ticket Booking System. All Rights Reserved.</p>
+
+</footer>
+
+</body>
+</html>
