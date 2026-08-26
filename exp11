@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hotel Booking System</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #263238;
+}
+
+/* HEADER */
+
+header {
+    background: #173f5f;
+    color: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(
+        rgba(0,0,0,.5),
+        rgba(0,0,0,.5)
+    ),
+    url("https://images.unsplash.com/photo-1566073771259-6a8506099945")
+    center/cover;
+
+    color: white;
+    padding: 90px 7%;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+/* SEARCH */
+
+.search-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 30px auto 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto;
+    gap: 10px;
+}
+
+input,
+select,
+button {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #1677b7;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0e5c91;
+}
+
+/* CONTENT */
+
+.container {
+    width: 86%;
+    margin: 35px auto;
+}
+
+.section-title {
+    margin-bottom: 20px;
+}
+
+/* HOTEL CARDS */
+
+.hotel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.hotel {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px #0002;
+}
+
+.hotel img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+.hotel-content {
+    padding: 18px;
+}
+
+.hotel-content h3 {
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #1677b7;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* PANEL */
+
+.panel {
+    background: white;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0001;
+}
+
+.panel input,
+.panel select {
+    width: 100%;
+    margin: 7px 0;
+}
+
+/* BOOKING */
+
+.booking {
+    display: none;
+}
+
+.booking h2 {
+    margin-bottom: 15px;
+}
+
+.booking button {
+    margin-top: 10px;
+}
+
+/* BOOKINGS */
+
+.booking-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* ADMIN */
+
+.admin {
+    margin-top: 30px;
+}
+
+/* FOOTER */
+
+footer {
+    background: #173f5f;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+
+    .hotel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-box {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:600px) {
+
+    header {
+        display: block;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+    .hotel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h2 {
+        font-size: 30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <h1>🏨 StayEasy Hotels</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#hotels">Hotels</a>
+        <a href="#bookings">My Bookings</a>
+        <a href="#admin">Admin</a>
+    </nav>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+    <h2>Find Your Perfect Stay</h2>
+
+    <p>
+        Search hotels, check availability and book rooms easily.
+    </p>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="destination"
+            placeholder="Destination">
+
+        <input
+            type="date"
+            id="checkin">
+
+        <input
+            type="date"
+            id="checkout">
+
+        <input
+            type="number"
+            id="guests"
+            placeholder="Guests"
+            min="1"
+            value="1">
+
+        <button onclick="searchHotels()">
+            Search
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- HOTELS -->
+
+<div class="container" id="hotels">
+
+    <h2 class="section-title">
+        Available Hotels
+    </h2>
+
+    <div
+        id="hotelList"
+        class="hotel-grid">
+    </div>
+
+</div>
+
+
+<!-- BOOKING FORM -->
+
+<div class="container">
+
+<section
+    class="panel booking"
+    id="bookingForm">
+
+    <h2>Book Your Room</h2>
+
+    <p id="selectedHotel"></p>
+
+    <input
+        type="text"
+        id="customerName"
+        placeholder="Full Name">
+
+    <input
+        type="email"
+        id="customerEmail"
+        placeholder="Email">
+
+    <input
+        type="number"
+        id="roomCount"
+        placeholder="Number of Rooms"
+        min="1"
+        value="1">
+
+    <select id="roomType">
+
+        <option value="Standard">
+            Standard Room
+        </option>
+
+        <option value="Deluxe">
+            Deluxe Room
+        </option>
+
+        <option value="Suite">
+            Suite
+        </option>
+
+    </select>
+
+    <button onclick="confirmBooking()">
+        Confirm Booking
+    </button>
+
+</section>
+
+</div>
+
+
+<!-- MY BOOKINGS -->
+
+<div class="container" id="bookings">
+
+<section class="panel">
+
+    <h2>My Booking History</h2>
+
+    <div id="bookingList">
+        No bookings yet.
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div class="container" id="admin">
+
+<section class="panel admin">
+
+    <h2>Administrator Panel</h2>
+
+    <p>
+        Admin can modify hotel room quantity and price.
+    </p>
+
+    <br>
+
+    <input
+        type="text"
+        id="adminHotel"
+        placeholder="Hotel Name">
+
+    <input
+        type="number"
+        id="adminPrice"
+        placeholder="New Room Price">
+
+    <input
+        type="number"
+        id="adminRooms"
+        placeholder="Room Quantity">
+
+    <button onclick="updateHotel()">
+        Update Hotel
+    </button>
+
+</section>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 StayEasy Hotel Booking System
+    </p>
+
+</footer>
+
+
+<script>
+
+/* HOTEL DATA */
+
+let hotels = [
+
+    {
+        name: "Grand Palace Hotel",
+        location: "Chennai",
+        price: 3500,
+        rooms: 15,
+        rating: 4.5,
+        image:
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945"
+    },
+
+    {
+        name: "Royal Comfort",
+        location: "Bangalore",
+        price: 2800,
+        rooms: 12,
+        rating: 4.2,
+        image:
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa"
+    },
+
+    {
+        name: "Sea View Resort",
+        location: "Goa",
+        price: 5000,
+        rooms: 8,
+        rating: 4.8,
+        image:
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
+    }
+
+];
+
+
+/* BOOKINGS */
+
+let bookings = [];
+
+let selectedHotel = null;
+
+
+/* DISPLAY HOTELS */
+
+function displayHotels(data = hotels) {
+
+    let list =
+        document.getElementById("hotelList");
+
+    if(data.length === 0) {
+
+        list.innerHTML =
+        "<p>No hotels found.</p>";
+
+        return;
+    }
+
+    list.innerHTML = data.map((hotel, index) => `
+
+        <div class="hotel">
+
+            <img src="${hotel.image}">
+
+            <div class="hotel-content">
+
+                <h3>
+                    ${hotel.name}
+                </h3>
+
+                <p>
+                    📍 ${hotel.location}
+                </p>
+
+                <p>
+                    ⭐ ${hotel.rating}
+                </p>
+
+                <p>
+                    Rooms Available:
+                    ${hotel.rooms}
+                </p>
+
+                <p class="price">
+                    ₹${hotel.price} / night
+                </p>
+
+                <button
+                    onclick="bookHotel(${index})">
+
+                    Book Room
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* SEARCH HOTELS */
+
+function searchHotels() {
+
+    let destination =
+        document
+        .getElementById("destination")
+        .value
+        .toLowerCase();
+
+    let checkin =
+        document
+        .getElementById("checkin")
+        .value;
+
+    let checkout =
+        document
+        .getElementById("checkout")
+        .value;
+
+    let guests =
+        document
+        .getElementById("guests")
+        .value;
+
+
+    if(!destination) {
+
+        alert(
+            "Please enter destination."
+        );
+
+        return;
+    }
+
+
+    if(!checkin || !checkout) {
+
+        alert(
+            "Please select check-in and check-out dates."
+        );
+
+        return;
+    }
+
+
+    if(
+        new Date(checkout)
+        <=
+        new Date(checkin)
+    ) {
+
+        alert(
+            "Checkout must be after check-in."
+        );
+
+        return;
+    }
+
+
+    let result =
+        hotels.filter(hotel =>
+            hotel.location
+            .toLowerCase()
+            .includes(destination)
+        );
+
+
+    displayHotels(result);
+
+}
+
+
+/* BOOK HOTEL */
+
+function bookHotel(index) {
+
+    selectedHotel =
+        hotels[index];
+
+    document
+    .getElementById("bookingForm")
+    .style.display = "block";
+
+
+    document
+    .getElementById("selectedHotel")
+    .innerHTML =
+
+    `
+    <b>
+    Selected Hotel:
+    ${selectedHotel.name}
+    </b>
+
+    <br>
+
+    Location:
+    ${selectedHotel.location}
+
+    <br>
+
+    Price:
+    ₹${selectedHotel.price} / night
+    `;
+
+
+    document
+    .getElementById("bookingForm")
+    .scrollIntoView({
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* CONFIRM BOOKING */
+
+function confirmBooking() {
+
+    if(!selectedHotel) {
+
+        alert(
+            "Please select a hotel."
+        );
+
+        return;
+    }
+
+
+    let name =
+        document
+        .getElementById("customerName")
+        .value;
+
+    let email =
+        document
+        .getElementById("customerEmail")
+        .value;
+
+    let rooms =
+        Number(
+            document
+            .getElementById("roomCount")
+            .value
+        );
+
+    let type =
+        document
+        .getElementById("roomType")
+        .value;
+
+
+    if(!name || !email) {
+
+        alert(
+            "Please enter customer details."
+        );
+
+        return;
+    }
+
+
+    if(
+        rooms <= 0 ||
+        rooms > selectedHotel.rooms
+    ) {
+
+        alert(
+            "Requested rooms are not available."
+        );
+
+        return;
+    }
+
+
+    let checkin =
+        document
+        .getElementById("checkin")
+        .value;
+
+    let checkout =
+        document
+        .getElementById("checkout")
+        .value;
+
+
+    let booking = {
+
+        id:
+        "BK" +
+        Math.floor(
+            Math.random() * 90000
+        ),
+
+        hotel:
+        selectedHotel.name,
+
+        customer:
+        name,
+
+        email:
+        email,
+
+        rooms:
+        rooms,
+
+        roomType:
+        type,
+
+        checkin:
+        checkin,
+
+        checkout:
+        checkout,
+
+        status:
+        "Confirmed"
+
+    };
+
+
+    bookings.push(booking);
+
+
+    selectedHotel.rooms -= rooms;
+
+
+    alert(
+        "Booking confirmed successfully!"
+    );
+
+
+    document
+    .getElementById("bookingForm")
+    .style.display = "none";
+
+
+    displayHotels();
+
+    displayBookings();
+
+}
+
+
+/* DISPLAY BOOKINGS */
+
+function displayBookings() {
+
+    let container =
+        document
+        .getElementById("bookingList");
+
+
+    if(bookings.length === 0) {
+
+        container.innerHTML =
+            "No bookings yet.";
+
+        return;
+    }
+
+
+    container.innerHTML =
+        bookings.map(booking => `
+
+        <div class="booking-card">
+
+            <h3>
+                ${booking.hotel}
+            </h3>
+
+            <p>
+                Booking ID:
+                <b>${booking.id}</b>
+            </p>
+
+            <p>
+                Customer:
+                ${booking.customer}
+            </p>
+
+            <p>
+                Room Type:
+                ${booking.roomType}
+            </p>
+
+            <p>
+                Rooms:
+                ${booking.rooms}
+            </p>
+
+            <p>
+                Check-in:
+                ${booking.checkin}
+            </p>
+
+            <p>
+                Check-out:
+                ${booking.checkout}
+            </p>
+
+            <p>
+                Status:
+                <b>${booking.status}</b>
+            </p>
+
+            <button
+                onclick="cancelBooking('${booking.id}')">
+
+                Cancel Booking
+
+            </button>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* CANCEL BOOKING */
+
+function cancelBooking(id) {
+
+    let booking =
+        bookings.find(
+            b => b.id === id
+        );
+
+
+    if(!booking)
+        return;
+
+
+    let hotel =
+        hotels.find(
+            h => h.name === booking.hotel
+        );
+
+
+    if(hotel)
+        hotel.rooms += booking.rooms;
+
+
+    booking.status =
+        "Cancelled";
+
+
+    displayHotels();
+
+    displayBookings();
+
+
+    alert(
+        "Booking cancelled successfully."
+    );
+
+}
+
+
+/* ADMIN UPDATE */
+
+function updateHotel() {
+
+    let name =
+        document
+        .getElementById("adminHotel")
+        .value;
+
+    let price =
+        Number(
+            document
+            .getElementById("adminPrice")
+            .value
+        );
+
+    let rooms =
+        Number(
+            document
+            .getElementById("adminRooms")
+            .value
+        );
+
+
+    let hotel =
+        hotels.find(
+            h =>
+            h.name
+            .toLowerCase()
+            ===
+            name.toLowerCase()
+        );
+
+
+    if(!hotel) {
+
+        alert(
+            "Hotel not found."
+        );
+
+        return;
+    }
+
+
+    if(price > 0)
+        hotel.price = price;
+
+
+    if(rooms >= 0)
+        hotel.rooms = rooms;
+
+
+    displayHotels();
+
+
+    alert(
+        "Hotel details updated."
+    );
+
+}
+
+
+/* INITIAL DISPLAY */
+
+displayHotels();
+
+displayBookings();
+
+</script>
+
+</body>
+</html>
