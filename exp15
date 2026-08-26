@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>ReNewMarket</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#f2f7f3;
+color:#24382b;
+}
+
+header{
+background:#176b45;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:70px 7%;
+background:
+linear-gradient(#0007,#0007),
+url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d")
+center/cover;
+color:white;
+}
+
+.hero h2{
+font-size:42px;
+}
+
+.search{
+margin-top:25px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr auto;
+gap:10px;
+}
+
+input,select{
+padding:12px;
+border:1px solid #ccc;
+border-radius:7px;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.card,
+.panel{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 12px #0002;
+}
+
+.card{
+border-top:5px solid #176b45;
+}
+
+.price{
+color:#176b45;
+font-size:20px;
+font-weight:bold;
+margin:10px 0;
+}
+
+button{
+padding:10px 15px;
+background:#176b45;
+color:white;
+border:0;
+border-radius:7px;
+cursor:pointer;
+margin:4px;
+}
+
+.panel{
+margin-top:25px;
+}
+
+.panel input,
+.panel select{
+width:100%;
+margin:6px 0;
+}
+
+.item-row{
+padding:12px;
+border-bottom:1px solid #ddd;
+}
+
+.status{
+padding:8px;
+border-radius:5px;
+background:#e4f3ea;
+display:inline-block;
+}
+
+footer{
+background:#176b45;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+@media(max-width:800px){
+
+header{
+display:block;
+}
+
+.search{
+grid-template-columns:1fr;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>♻️ ReNewMarket</h1>
+
+<nav>
+
+<a href="#market">
+Marketplace
+</a>
+
+<a href="#sell">
+Sell
+</a>
+
+<a href="#orders">
+Orders
+</a>
+
+<a href="#admin">
+Admin
+</a>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Buy, Sell & Reuse</h2>
+
+<p>
+A marketplace for quality second-hand products.
+</p>
+
+<div class="search">
+
+<input
+id="search"
+placeholder="Search products..."
+oninput="displayItems()">
+
+<select id="category"
+onchange="displayItems()">
+
+<option value="All">
+All Categories
+</option>
+
+<option>Electronics</option>
+<option>Furniture</option>
+<option>Clothing</option>
+<option>Collectibles</option>
+
+</select>
+
+<select id="sort"
+onchange="displayItems()">
+
+<option value="default">
+Sort
+</option>
+
+<option value="low">
+Price Low to High
+</option>
+
+<option value="high">
+Price High to Low
+</option>
+
+</select>
+
+<button onclick="displayItems()">
+Search
+</button>
+
+</div>
+
+</section>
+
+
+<div class="container">
+
+<h2 id="market">
+Marketplace
+</h2>
+
+<br>
+
+<div id="itemList" class="grid"></div>
+
+
+<section
+class="panel"
+id="sell">
+
+<h2>Create Listing</h2>
+
+<input
+id="seller"
+placeholder="Seller Name">
+
+<input
+id="itemName"
+placeholder="Item Name">
+
+<select id="itemCategory">
+
+<option>Electronics</option>
+<option>Furniture</option>
+<option>Clothing</option>
+<option>Collectibles</option>
+
+</select>
+
+<input
+id="itemPrice"
+type="number"
+placeholder="Price">
+
+<input
+id="itemDescription"
+placeholder="Description">
+
+<button onclick="addItem()">
+Publish Listing
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="orders">
+
+<h2>My Orders</h2>
+
+<div id="orderList">
+No orders.
+</div>
+
+</section>
+
+
+<section
+class="panel"
+id="admin">
+
+<h2>Admin Login</h2>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="adminTools"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+© 2026 ReNewMarket
+
+</footer>
+
+
+<script>
+
+let items=[
+
+{
+name:"Used Laptop",
+category:"Electronics",
+price:28000,
+seller:"Rahul",
+description:"Good condition laptop."
+},
+
+{
+name:"Wooden Sofa",
+category:"Furniture",
+price:9000,
+seller:"Priya",
+description:"Used wooden sofa."
+},
+
+{
+name:"Digital Camera",
+category:"Electronics",
+price:18000,
+seller:"Kiran",
+description:"Camera in excellent condition."
+},
+
+{
+name:"Winter Jacket",
+category:"Clothing",
+price:1200,
+seller:"Anu",
+description:"Gently used jacket."
+},
+
+{
+name:"Vintage Watch",
+category:"Collectibles",
+price:5000,
+seller:"Arun",
+description:"Vintage collectible watch."
+}
+
+];
+
+let orders=[];
+
+
+/* DISPLAY */
+
+function displayItems(){
+
+let search=
+document.getElementById("search")
+.value.toLowerCase();
+
+let category=
+document.getElementById("category")
+.value;
+
+let sort=
+document.getElementById("sort")
+.value;
+
+let result=items.filter(item=>
+
+item.name.toLowerCase().includes(search)
+&&
+(category==="All"||
+item.category===category)
+
+);
+
+
+if(sort==="low"){
+
+result.sort((a,b)=>a.price-b.price);
+
+}
+
+if(sort==="high"){
+
+result.sort((a,b)=>b.price-a.price);
+
+}
+
+
+document.getElementById("itemList").innerHTML=
+
+result.map((item,index)=>`
+
+<div class="card">
+
+<h3>
+${item.name}
+</h3>
+
+<p>
+Category:
+${item.category}
+</p>
+
+<p>
+Seller:
+${item.seller}
+</p>
+
+<p class="price">
+₹${item.price.toLocaleString()}
+</p>
+
+<p>
+${item.description}
+</p>
+
+<br>
+
+<button onclick="buyItem(${items.indexOf(item)})">
+Buy
+</button>
+
+<button onclick="negotiate(${items.indexOf(item)})">
+Negotiate
+</button>
+
+<button onclick="favorite(${items.indexOf(item)})">
+♡ Favorite
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* ADD ITEM */
+
+function addItem(){
+
+let seller=
+document.getElementById("seller").value;
+
+let name=
+document.getElementById("itemName").value;
+
+let category=
+document.getElementById("itemCategory").value;
+
+let price=
+Number(document.getElementById("itemPrice").value);
+
+let description=
+document.getElementById("itemDescription").value;
+
+if(!seller||!name||!price){
+
+alert("Fill all required fields.");
+
+return;
+
+}
+
+items.push({
+
+name:name,
+
+category:category,
+
+price:price,
+
+seller:seller,
+
+description:
+description||"Used product in good condition."
+
+});
+
+displayItems();
+
+alert("Listing published successfully.");
+
+}
+
+
+/* BUY */
+
+function buyItem(index){
+
+let item=items[index];
+
+let buyer=
+prompt("Enter buyer name:");
+
+if(!buyer)
+return;
+
+let order={
+
+id:"ORD"+Date.now().toString().slice(-6),
+
+item:item.name,
+
+buyer:buyer,
+
+price:item.price,
+
+status:"Order Placed"
+
+};
+
+orders.push(order);
+
+displayOrders();
+
+alert(
+"Order placed successfully.\n"+
+"Order ID: "+order.id
+);
+
+}
+
+
+/* NEGOTIATE */
+
+function negotiate(index){
+
+let item=items[index];
+
+let offer=
+Number(
+prompt(
+"Product price: ₹"+
+item.price+
+"\nEnter your offer:"
+)
+);
+
+if(offer){
+
+alert(
+"Offer of ₹"+
+offer+
+" sent to "+
+item.seller
+);
+
+}
+
+}
+
+
+/* FAVORITE */
+
+function favorite(index){
+
+alert(
+items[index].name+
+" added to favorites."
+);
+
+}
+
+
+/* ORDERS */
+
+function displayOrders(){
+
+if(orders.length===0){
+
+document.getElementById("orderList")
+.innerHTML="No orders.";
+
+return;
+
+}
+
+document.getElementById("orderList").innerHTML=
+
+orders.map((o,i)=>`
+
+<div class="item-row">
+
+<b>${o.id}</b>
+
+<br>
+
+Item:
+${o.item}
+
+<br>
+
+Buyer:
+${o.buyer}
+
+<br>
+
+Price:
+₹${o.price}
+
+<br>
+
+<span class="status">
+${o.status}
+</span>
+
+<br>
+
+<button onclick="changeOrderStatus(${i})">
+Update Logistics
+</button>
+
+<button onclick="deleteOrder(${i})">
+Delete Order
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* LOGISTICS */
+
+function changeOrderStatus(i){
+
+let status=
+prompt(
+"Enter status:\n1. Shipped\n2. Received"
+);
+
+if(status==="1")
+orders[i].status="Shipped";
+
+else if(status==="2")
+orders[i].status="Received";
+
+else{
+
+alert("Invalid status.");
+
+return;
+
+}
+
+displayOrders();
+
+}
+
+
+/* DELETE ORDER */
+
+function deleteOrder(i){
+
+if(confirm("Delete this order?")){
+
+orders.splice(i,1);
+
+displayOrders();
+
+}
+
+}
+
+
+/* ADMIN */
+
+function adminLogin(){
+
+let password=
+document.getElementById("adminPassword")
+.value;
+
+if(password!=="admin123"){
+
+alert("Invalid password.");
+
+return;
+
+}
+
+document.getElementById("adminTools").innerHTML=`
+
+<br>
+
+<h3>User Management</h3>
+
+<button onclick="editUser()">
+Edit User
+</button>
+
+<button onclick="deleteUser()">
+Delete User
+</button>
+
+<h3 style="margin-top:15px">
+Category Management
+</h3>
+
+<button onclick="addCategory()">
+Add Category
+</button>
+
+<button onclick="deleteCategory()">
+Delete Category
+</button>
+
+<h3 style="margin-top:15px">
+Commodity Management
+</h3>
+
+<button onclick="editCommodity()">
+Edit Commodity
+</button>
+
+<button onclick="deleteCommodity()">
+Delete Commodity
+</button>
+
+`;
+
+}
+
+
+function editUser(){
+
+alert("User editing module opened.");
+
+}
+
+function deleteUser(){
+
+alert("User deleted successfully.");
+
+}
+
+function addCategory(){
+
+let category=
+prompt("Enter new category:");
+
+if(category){
+
+alert(
+"Category "+category+
+" added successfully."
+);
+
+}
+
+}
+
+function deleteCategory(){
+
+alert("Category deleted.");
+
+}
+
+function editCommodity(){
+
+alert("Commodity editing module opened.");
+
+}
+
+function deleteCommodity(){
+
+alert("Commodity deleted.");
+
+}
+
+
+displayItems();
+
+displayOrders();
+
+</script>
+
+</body>
+
+</html>
