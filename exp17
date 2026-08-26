@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>VoteOnline</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial;
+background:#f4f6fb;
+color:#202938;
+}
+
+header{
+background:#312e81;
+color:white;
+padding:18px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:18px;
+}
+
+.hero{
+padding:75px 7%;
+background:linear-gradient(120deg,#312e81,#4f46e5);
+color:white;
+}
+
+.hero h2{
+font-size:42px;
+}
+
+.container{
+width:86%;
+margin:35px auto;
+}
+
+.panel{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 3px 12px #0002;
+margin-bottom:25px;
+}
+
+input,select{
+width:100%;
+padding:11px;
+border:1px solid #ccc;
+border-radius:7px;
+margin:6px 0;
+}
+
+button{
+padding:11px 16px;
+border:0;
+border-radius:7px;
+background:#4338ca;
+color:white;
+cursor:pointer;
+margin:4px;
+}
+
+button:hover{
+background:#312e81;
+}
+
+.candidate{
+border:1px solid #ddd;
+padding:17px;
+border-radius:8px;
+margin-top:10px;
+}
+
+.result{
+margin-top:8px;
+padding:10px;
+background:#eef2ff;
+border-radius:7px;
+}
+
+footer{
+background:#312e81;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🗳️ VoteOnline</h1>
+
+<nav>
+<a href="#vote">Vote</a>
+<a href="#admin">Admin</a>
+<a href="#results">Results</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Secure Online Voting</h2>
+
+<p>
+Vote securely using your Voter ID and OTP.
+</p>
+
+</section>
+
+
+<div class="container">
+
+
+<section class="panel">
+
+<h2>Voter Login</h2>
+
+<input
+id="voterId"
+placeholder="Enter Voter ID">
+
+<button onclick="sendOTP()">
+Get OTP
+</button>
+
+<input
+id="otp"
+placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">
+Verify OTP
+</button>
+
+<p id="loginStatus"></p>
+
+</section>
+
+
+<section
+class="panel"
+id="vote">
+
+<h2>Select Candidate</h2>
+
+<div id="candidateList"></div>
+
+<button onclick="submitVote()">
+Submit Vote
+</button>
+
+<p id="voteStatus"></p>
+
+</section>
+
+
+<section
+class="panel"
+id="results">
+
+<h2>Election Results</h2>
+
+<div id="resultList"></div>
+
+<button onclick="showResults()">
+Get Election Results
+</button>
+
+</section>
+
+
+<section
+class="panel"
+id="admin">
+
+<h2>Administrator</h2>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Admin Password">
+
+<button onclick="adminLogin()">
+Login
+</button>
+
+<div id="adminPanel"></div>
+
+</section>
+
+</div>
+
+
+<footer>
+© 2026 VoteOnline
+</footer>
+
+
+<script>
+
+let candidates=[
+
+{
+name:"Candidate A",
+party:"People's Party",
+votes:0
+},
+
+{
+name:"Candidate B",
+party:"Development Party",
+votes:0
+},
+
+{
+name:"Candidate C",
+party:"National Party",
+votes:0
+}
+
+];
+
+let voters=[
+
+{
+id:"VOTER001",
+name:"Student 1",
+voted:false
+},
+
+{
+id:"VOTER002",
+name:"Student 2",
+voted:false
+},
+
+{
+id:"VOTER003",
+name:"Student 3",
+voted:false
+}
+
+];
+
+let currentVoter=null;
+let generatedOTP=null;
+
+
+/* DISPLAY CANDIDATES */
+
+function displayCandidates(){
+
+document.getElementById("candidateList").innerHTML=
+
+candidates.map((c,i)=>`
+
+<div class="candidate">
+
+<h3>${c.name}</h3>
+
+<p>
+Party:
+${c.party}
+</p>
+
+<label>
+
+<input
+type="radio"
+name="candidate"
+value="${i}">
+
+Vote for ${c.name}
+
+</label>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* OTP */
+
+function sendOTP(){
+
+let id=
+document.getElementById("voterId").value;
+
+currentVoter=
+voters.find(v=>v.id===id);
+
+if(!currentVoter){
+
+alert("Invalid Voter ID");
+return;
+
+}
+
+generatedOTP=
+Math.floor(
+100000+
+Math.random()*900000
+);
+
+alert(
+"Demo OTP: "+generatedOTP
+);
+
+document.getElementById("loginStatus").innerText=
+"OTP sent successfully.";
+
+}
+
+
+/* VERIFY OTP */
+
+function verifyOTP(){
+
+let entered=
+document.getElementById("otp").value;
+
+if(
+currentVoter &&
+entered==generatedOTP
+){
+
+document.getElementById("loginStatus").innerText=
+"✓ OTP verified. You can vote now.";
+
+}else{
+
+document.getElementById("loginStatus").innerText=
+"Invalid OTP.";
+
+}
+
+}
+
+
+/* SUBMIT VOTE */
+
+function submitVote(){
+
+if(!currentVoter){
+
+alert("Login using Voter ID first.");
+return;
+
+}
+
+if(currentVoter.voted){
+
+alert("You have already voted.");
+return;
+
+}
+
+let selected=
+document.querySelector(
+'input[name="candidate"]:checked'
+);
+
+if(!selected){
+
+alert("Select a candidate.");
+return;
+
+}
+
+let index=
+Number(selected.value);
+
+candidates[index].votes++;
+
+currentVoter.voted=true;
+
+document.getElementById("voteStatus").innerText=
+"✓ Vote submitted successfully.";
+
+}
+
+
+/* RESULTS */
+
+function showResults(){
+
+let total=
+candidates.reduce(
+(sum,c)=>sum+c.votes,0
+);
+
+document.getElementById("resultList").innerHTML=
+
+candidates.map(c=>`
+
+<div class="result">
+
+<b>${c.name}</b>
+
+<br>
+
+${c.party}
+
+<br>
+
+Votes:
+${c.votes}
+
+<br>
+
+Percentage:
+${
+total?
+((c.votes/total)*100).toFixed(2):
+0
+}%
+
+</div>
+
+`).join("");
+
+}
+
+
+/* ADMIN */
+
+function adminLogin(){
+
+let password=
+document.getElementById("adminPassword").value;
+
+if(password!=="admin123"){
+
+alert("Invalid admin password");
+return;
+
+}
+
+document.getElementById("adminPanel").innerHTML=`
+
+<br>
+
+<h3>Election Administration</h3>
+
+<input
+id="candidateName"
+placeholder="Candidate Name">
+
+<input
+id="candidateParty"
+placeholder="Party Name">
+
+<button onclick="addCandidate()">
+Create Candidate
+</button>
+
+<br>
+
+<button onclick="addVoter()">
+Create Voter
+</button>
+
+<button onclick="viewVoters()">
+View Voter List
+</button>
+
+<button onclick="importVoters()">
+Import Voter List
+</button>
+
+<button onclick="showResults()">
+Get Results
+</button>
+
+`;
+
+}
+
+
+/* ADD CANDIDATE */
+
+function addCandidate(){
+
+let name=
+document.getElementById("candidateName").value;
+
+let party=
+document.getElementById("candidateParty").value;
+
+if(!name||!party){
+
+alert("Enter candidate details");
+return;
+
+}
+
+candidates.push({
+name,
+party,
+votes:0
+});
+
+displayCandidates();
+
+alert("Candidate created");
+
+}
+
+
+/* ADD VOTER */
+
+function addVoter(){
+
+let id=
+prompt("Enter new Voter ID:");
+
+let name=
+prompt("Enter voter name:");
+
+if(id&&name){
+
+voters.push({
+id,
+name,
+voted:false
+});
+
+alert("Voter added successfully");
+
+}
+
+}
+
+
+/* VIEW VOTERS */
+
+function viewVoters(){
+
+alert(
+
+voters.map(v=>
+v.id+" - "+v.name+
+" - Voted: "+v.voted
+).join("\n")
+
+);
+
+}
+
+
+/* IMPORT */
+
+function importVoters(){
+
+let data=
+prompt(
+"Enter voter IDs separated by comma:"
+);
+
+if(!data)return;
+
+data.split(",").forEach(id=>{
+
+id=id.trim();
+
+if(id){
+
+voters.push({
+id:id,
+name:"Imported Voter",
+voted:false
+});
+
+}
+
+});
+
+alert("Voter list imported");
+
+}
+
+
+displayCandidates();
+
+</script>
+
+</body>
+</html>
